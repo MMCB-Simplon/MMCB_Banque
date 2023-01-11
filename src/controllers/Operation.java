@@ -7,11 +7,12 @@ public class Operation {
 	private Compte compte;
 	
 	public double crediter( int numerocompte,double montant,double solde) {
-		
 		return solde+montant;
-		
-		
-	}
+		}
+	
+	public double debiter( int numerocompte,double montant,double solde) {
+		return solde-montant;
+		}
 	
 	public void transfertCourant(CompteCourant compte1,Compte compte2,double montant) {
 		double nouveausolde1=0;
