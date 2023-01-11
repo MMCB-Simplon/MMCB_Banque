@@ -28,6 +28,11 @@ public class Operation {
 		
 	}
 	
+	public double modifier (int numerocompte, double montant, double solde) {
+		
+		return solde = montant;
+	}
+	
 		
 	
 
