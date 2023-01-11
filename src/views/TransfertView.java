@@ -2,6 +2,6 @@ package views;
 
 import javax.swing.JFrame;
 
-public class Transfert extends JFrame {
+public class TransfertView extends JFrame {
 
 }

@@ -2,6 +2,6 @@ package views;
 
 import javax.swing.JFrame;
 
-public class Modifier extends JFrame {
+public class DebiterView extends JFrame {
 
 }
