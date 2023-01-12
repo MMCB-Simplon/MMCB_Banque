@@ -1,7 +1,9 @@
 package Dao;
 
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class UserDAO extends DatabaseConnection {
@@ -28,10 +30,32 @@ public class UserDAO extends DatabaseConnection {
 		}
 
 	}
+	
+	public void insertUser () {
+		
+		try {
+			
+
+			java.sql.Statement stmt =con.createStatement();
+			
+			int iduser=40;
+		    String prenom="caroline";
+			 stmt.executeUpdate("INSERT INTO user VALUES ("+iduser+",'"+prenom+"')");
+
+			con.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		
+		
+	}
 
 	public static void main(String[] args) {
 
 		UserDAO user = new UserDAO();
 		user.readUser();
+		
+		user.insertUser();
 	}
 }
