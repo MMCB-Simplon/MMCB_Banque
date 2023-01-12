@@ -7,7 +7,7 @@ public class DatabaseConnection {
 	
 	private String url = "jdbc:mysql://localhost/mmcb" ;
 	private String user ="root";
-	private String mot="";
+	private String mot="root";
 	
 	
 	public  Connection BDDconnection() {
