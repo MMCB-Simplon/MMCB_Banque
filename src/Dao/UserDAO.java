@@ -15,14 +15,10 @@ public class UserDAO extends DatabaseConnection {
 	public void readUser() {
 
 		try {
-
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mmcb", "root", "root");
-
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mmcb", "root", "");
 			java.sql.Statement stmt = conn.createStatement();
 			ResultSet res = stmt.executeQuery("SELECT * FROM user");
-
 			while (res.next()) {
-
 				System.out.println(res.getInt(1) + "  " + res.getString(2));
 
 			}
