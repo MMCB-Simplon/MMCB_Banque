@@ -1,4 +1,4 @@
-package Dao;
+package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,7 +7,7 @@ public class DatabaseConnection {
 	
 	private String url = "jdbc:mysql://localhost/mmcb" ;
 	private String user ="root";
-	private String mot="root";
+	private String mot="";
 	
 	
 	public  Connection BDDconnection() {
