@@ -1,6 +1,6 @@
 package models;
 
-public class CompteEpargne extends Compte {
+public class CompteEpargneModel extends CompteModel {
 	private final double tauxInteret = 1.2;
 	private final double plafond = 100000;
 

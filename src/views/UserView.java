@@ -2,6 +2,6 @@ package views;
 
 import javax.swing.JFrame;
 
-public class BanqueView extends JFrame {
+public class UserView extends JFrame {
 
 }

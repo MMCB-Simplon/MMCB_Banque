@@ -1,6 +1,6 @@
 package models;
 
-public class CompteCourant extends Compte{
+public class CompteCourantModel extends CompteModel{
 	private final double fraisTransfert=2.0;
 	private final double soldeMinimum=0.00;
 
@@ -14,7 +14,7 @@ public class CompteCourant extends Compte{
 	}
 	
 	public  static void main(String [] args) {
-		CompteCourant cpc= new CompteCourant();
+		CompteCourantModel cpc= new CompteCourantModel();
 		cpc.setPrenom("mamadou");
 		
 		cpc.setSolde(35000);

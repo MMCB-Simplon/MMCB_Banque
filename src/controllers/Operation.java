@@ -1,10 +1,10 @@
 package controllers;
-import models.Compte;
-import models.CompteCourant;
-import models.CompteEpargne;
+import models.CompteModel;
+import models.CompteCourantModel;
+import models.CompteEpargneModel;
 import views.*;
 public class Operation {
-	private Compte compte;
+	private CompteModel compte;
 	
 	public double crediter( int numerocompte,double montant,double solde) {
 		return solde+montant;
@@ -14,7 +14,7 @@ public class Operation {
 		return solde-montant;
 		}
 	
-	public void transfertCourant(CompteCourant compte1,Compte compte2,double montant) {
+	public void transfertCourant(CompteCourantModel compte1,CompteModel compte2,double montant) {
 		double nouveausolde1=0;
 		double nouveausolde2=0.0;
 

@@ -2,9 +2,9 @@ package models;
 
 import java.util.List;
 
-public class Banque {
+public class UserModel {
 	private String raison_sociale;
-	private List<Compte> listecompte;
+	private List<CompteModel> listecompte;
 
 
 	public String getRaison_sociale() {
@@ -15,11 +15,11 @@ public class Banque {
 		this.raison_sociale = raison_sociale;
 	}
 
-	public List<Compte> getListecompte() {
+	public List<CompteModel> getListecompte() {
 		return listecompte;
 	}
 
-	public void setListecompte(List<Compte> listecompte) {
+	public void setListecompte(List<CompteModel> listecompte) {
 		this.listecompte = listecompte;
 	}
 

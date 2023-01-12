@@ -1,6 +1,6 @@
 package models;
 
-public class Compte {
+public class CompteModel {
 
 	private int numerocompte;
 	private String nom;
