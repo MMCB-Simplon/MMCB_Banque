@@ -2,7 +2,6 @@ package Dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 
 public class DatabaseConnection {
 	
@@ -17,6 +16,7 @@ public class DatabaseConnection {
 			Connection conn = DriverManager.getConnection(url,user,mot);
 			System.out.println("connecté");
 			return conn;
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println(" pas connecté");
@@ -26,5 +26,5 @@ public class DatabaseConnection {
 		}
 		
 	}
-		
+
 }
