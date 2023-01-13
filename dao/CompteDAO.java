@@ -23,18 +23,36 @@ public class CompteDAO extends DatabaseConnection {
 	
 	public void insertCompte() {
 		Connection con = this.BDDconnection();
-		int idcompte = 00007;
+		int idcompte = 12;
 		String nom = "Manmanu";
 		String prenom = "Valivali";
 		int solde = 30203;
 		int idbanque = 1;
 		String typecompte = "courant";
 		
+		double frais_transfert = 20.00;
+		double solde_minimum = 10000.00;
+		double tauxInterert = 20.00;
+		double plafond = 10000.0;
+		
 		try {
 			java.sql.Statement stmt = con.createStatement();
 			String sql = "INSERT INTO compte (idcompte, nom, prenom, solde,idbanque, typecompte) "
 					+ "VALUES ("+idcompte+", '"+nom+"', '"+prenom+"', "+solde+", "+idbanque+", '"+typecompte+"')";
+			
+			String sql2 = "";
+			if(typecompte.equals("courant")) {
+				sql2 = "INSERT INTO comptecourant (idcompte ,frais_transfert,solde_minimun) "
+						+ "VALUES ("+idcompte+","+frais_transfert+","+solde_minimum+")";
+				
+			} else if(typecompte.equals("epagne")) {
+				sql2 = "INSERT INTO compteepargne (idcompte ,tauxInterert,plafond) "
+						+ "VALUES ("+idcompte+","+tauxInterert+","+plafond+")";
+			}
+			
+			
 			stmt.executeUpdate(sql);
+			stmt.executeUpdate(sql2);
 			con.close();
 		} catch (Exception e) {
 			System.out.println(e);
@@ -75,7 +93,7 @@ public class CompteDAO extends DatabaseConnection {
 
 		CompteDAO compteBanque = new CompteDAO();
 		//compteBanque.readCompte();
-		//compteBanque.insertCompte();
+		compteBanque.insertCompte();
 		//compteBanque.deleteCompte();
 		//compteBanque.updateCompte();
 	}

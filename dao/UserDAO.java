@@ -14,7 +14,6 @@ public class UserDAO extends DatabaseConnection {
 	public void readUser() {
 		Connection con = this.BDDconnection();
 		try {
-
 			java.sql.Statement stmt = con.createStatement();
 			ResultSet res = stmt.executeQuery("SELECT * FROM user");
 			while (res.next()) {
