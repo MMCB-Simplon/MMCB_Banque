@@ -2,6 +2,9 @@ package dao;
 
 import java.sql.*;
 
+import models.CompteCourantModel;
+import models.CompteEpargneModel;
+
 public class CompteDAO extends DatabaseConnection {
 
 	Connection con;
@@ -31,15 +34,15 @@ public class CompteDAO extends DatabaseConnection {
 		int iduser = 1;
 		String sqlrandom = "select MAX(numerocompte) from compte";
 		// select MAX(numerocompte) from comptecourant
-		String typecompte = "epargne";
+		String typecompte = "courant";
 
-		double frais_transfert = 20.00;
-		double solde_minimum = 10000.00;
-		double tauxInterert = 20.00;
-		double plafond = 10000.0;
 
 		try {
-
+/*
+ * on recupere la valeur maximal des numero de compte
+ *  
+ *  
+ *  */
 			java.sql.Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(sqlrandom);
 			while (rs.next()) {
@@ -48,24 +51,28 @@ public class CompteDAO extends DatabaseConnection {
 				System.out.println(numerocompte);
 
 			}
+			
+			
 			if (numerocompte < 999999) {
-
+			
 				String sql = "INSERT INTO compte (numerocompte, nom, prenom, solde,iduser, typecompte) " + "VALUES ("
 						+ numerocompte + ", '" + nom + "', '" + prenom + "', " + solde + ", " + iduser + ", '"
 						+ typecompte + "')";
-
-				String sql2 = "";
+				stmt.executeUpdate(sql);
+				
 				if (typecompte.equals("courant")) {
-					sql2 = "INSERT INTO comptecourant (numerocompte ,frais_transfert,solde_minimun) " + "VALUES ("
-							+ numerocompte + "," + frais_transfert + "," + solde_minimum + ")";
+					CompteCourantModel compte = new CompteCourantModel();
+					sql= "INSERT INTO comptecourant (numerocompte ,frais_transfert,solde_minimun) " + "VALUES ("
+							+ numerocompte + "," + compte.getFraisTransfert() + "," + compte.getSoldeMinimum() + ")";
 
 				} else if (typecompte.equals("epargne")) {
-					sql2 = "INSERT INTO compteepargne (numerocompte ,tauxInterert,plafond) " + "VALUES (" + numerocompte
-							+ "," + tauxInterert + "," + plafond + ")";
+					CompteEpargneModel compte = new CompteEpargneModel();
+					sql = "INSERT INTO compteepargne (numerocompte ,tauxInterert,plafond) " + "VALUES (" + numerocompte
+							+ "," + compte.getTauxInteret() + "," + compte.getPlafond()+ ")";
 				}
 
 				stmt.executeUpdate(sql);
-				stmt.executeUpdate(sql2);
+				
 				con.close();
 			}
 		} catch (Exception e) {
