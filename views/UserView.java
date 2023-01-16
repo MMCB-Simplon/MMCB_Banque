@@ -21,7 +21,7 @@ public class UserView extends JFrame {
 	private JButton validerbtn = new JButton("Valider");
 //	private button valider = new 
 
-	JLabel obligatoirelabel = new JLabel(" * obligatoire");
+	private JLabel obligatoirelabel = new JLabel();
 
 	public UserView() {
 		super("Gestion bancaire");
@@ -32,6 +32,7 @@ public class UserView extends JFrame {
       
 
 		Nom_Prenom = new JTextField();
+		getContentPane().setLayout(null);
 		Nom_Prenom = new JTextField();
 		Nom_Prenom.setBounds(450, 300, 300, 50);
 		getContentPane().add(Nom_Prenom);
@@ -83,13 +84,14 @@ public class UserView extends JFrame {
 		});
 
 		getContentPane().add(validerbtn);
+		
 
 		//JLabel obligatoirelabel = new JLabel("*Champ obligatoire: maximum 50 caractères");
 		obligatoirelabel.setFont(new Font("SansSerif", Font.BOLD, 12));
 		obligatoirelabel.setForeground(new Color(255, 0, 0));
 		obligatoirelabel.setBounds(761, 317, 306, 16);
 		getContentPane().add(obligatoirelabel);
-		obligatoirelabel.setVisible(false);
+		
 
 	}
 }

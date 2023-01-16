@@ -8,7 +8,17 @@ public class CompteModel {
 	private double solde;
 	private String libelle;
 	private String typeCompte;
+	private int idUser; 
 
+	public int getIdUser() {
+		return idUser;
+	}
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
+	}
+	public double getSolde() {
+		return solde;
+	}
 	@Override
 	public String toString() {
 		return "Compte [numerocompte=" + numerocompte + ", nom=" + nom + ", prenom=" + prenom + ", solde=" + solde
@@ -48,7 +58,7 @@ public class CompteModel {
 		this.prenom = prenom;
 	}
 
-	public double getSolde() {
+	public double getSolde(double d) {
 		return solde;
 	}
 

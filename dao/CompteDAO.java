@@ -1,14 +1,53 @@
 package dao;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import models.CompteCourantModel;
 import models.CompteEpargneModel;
+import models.CompteModel;
 
 public class CompteDAO extends DatabaseConnection {
 
 	Connection con;
 
+	
+	
+	
+	
+	
+	
+	 public ArrayList<CompteModel>   readListeCompte () {
+         
+	      ArrayList<CompteModel> listcompte= new ArrayList<CompteModel>();
+	        Connection con = this.BDDconnection();
+	        try {
+	            
+
+	            java.sql.Statement stmt = con.createStatement();
+	            ResultSet res = stmt.executeQuery("SELECT * FROM compte");
+
+	            while (res.next()) {
+	                System.out.println("bien executé");
+	                CompteModel compte=  new CompteModel();
+	                compte.setNumerocompte(res.getInt(1));
+	                compte.setPrenom(res.getString(2));
+	                compte.setNom(res.getString(3));
+	                compte.getSolde(res.getDouble(4));
+	                compte.setIdUser(res.getInt(5));
+	                compte.setTypeCompte(res.getString(6));
+	                 
+	         listcompte.add(compte);
+	             //   System.out.println(res.getInt(1) + "  " + res.getString(2));
+
+	            }
+	            con.close();
+	            
+	        } catch (Exception e) {
+	            System.out.println(e);
+	        }
+	    return  listcompte;
+	    }
 	public void readCompte() {
 		Connection con = this.BDDconnection();
 
@@ -110,11 +149,19 @@ public class CompteDAO extends DatabaseConnection {
 
 	public static void main(String[] args) {
 
+		ArrayList listeCompte = new ArrayList<CompteModel>();
+		
+		
 		CompteDAO compteBanque = new CompteDAO();
-		// compteBanque.readCompte();
-		compteBanque.insertCompte();
+		//compteBanque.readCompte();
+		//compteBanque.insertCompte();
 		// compteBanque.deleteCompte();
 		// compteBanque.updateCompte();
+		listeCompte = compteBanque.readListeCompte();
+		
+		System.out.println(listeCompte);
+		
+		
 	}
 
 }
