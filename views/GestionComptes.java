@@ -1,6 +1,7 @@
 package views;
 
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JButton;
 import javax.swing.JScrollBar;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import java.awt.Font;
 
 public class GestionComptes extends JFrame {
 	public GestionComptes() {
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 22));
 		getContentPane().setLayout(null);
 		

@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import models.UserModel;
+
 public class UserDAO extends DatabaseConnection {
 
 	private int iduser;
@@ -27,15 +29,16 @@ public class UserDAO extends DatabaseConnection {
 
 	}
 	
-	public void insertUser () {
+	public void insertUser ( String nom_prenom) {
 		Connection con = this.BDDconnection();
 		try {
 			
 			java.sql.Statement stmt =con.createStatement();
 			
-			int iduser=40;
+		UserModel user = new  UserModel();
+		user.setRaison_sociale(nom_prenom);
 		    String prenom="caroline";
-			 stmt.executeUpdate("INSERT INTO user VALUES ("+iduser+",'"+prenom+"')");
+			 stmt.executeUpdate("INSERT INTO user (nom_prenom) VALUES ('"+user.getRaison_sociale()+"')");
 			con.close();
 		} catch (Exception e) {
 			System.out.println(e);
@@ -48,6 +51,6 @@ public class UserDAO extends DatabaseConnection {
 		UserDAO user = new UserDAO();
 		user.readUser();
 		
-		user.insertUser();
+		//user.insertUser();
 	}
 }

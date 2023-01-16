@@ -5,7 +5,7 @@
  * @author dial
  *
  */
-module MMCB_Banque {
+module banqueMMCB {
 	requires java.desktop;
 	requires java.sql;
 }
