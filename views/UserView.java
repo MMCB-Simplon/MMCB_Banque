@@ -24,29 +24,34 @@ public class UserView extends JFrame {
 	JLabel obligatoirelabel = new JLabel(" * obligatoire");
 
 	public UserView() {
-
-		getContentPane().setLayout(null);
+		super("Gestion bancaire");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setSize(1200, 650);
+		this.setLocationRelativeTo(null);
+		this.setResizable(false);
+      
 
 		Nom_Prenom = new JTextField();
-		Nom_Prenom.setToolTipText("maximum 50 caracteres");
-		Nom_Prenom.setBounds(198, 344, 402, 42);
+		Nom_Prenom = new JTextField();
+		Nom_Prenom.setBounds(450, 300, 300, 50);
 		getContentPane().add(Nom_Prenom);
-		Nom_Prenom.setColumns(10);
 
 		JLabel lblNewLabel = new JLabel("Entrez votre Nom et votre Prénom:");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lblNewLabel.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(198, 284, 378, 35);
+		lblNewLabel.setBounds(410, 225, 378, 50);
 		getContentPane().add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("MMCB BANQUE");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 37));
-		lblNewLabel_1.setBounds(198, 142, 378, 137);
+		lblNewLabel_1.setFont(new Font("SansSerif", Font.BOLD, 37));
+		lblNewLabel_1.setBounds(410, 100, 378, 137);
 		getContentPane().add(lblNewLabel_1);
 
-		validerbtn.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		validerbtn.setBounds(338, 418, 148, 42);
+		validerbtn.setFont(new Font("SansSerif", Font.PLAIN, 22));
+		validerbtn.setBounds(500, 400, 200, 50);
+		getContentPane().add(validerbtn);
+
 		validerbtn.addActionListener(new ActionListener() {
 
 			@Override
@@ -57,7 +62,7 @@ public class UserView extends JFrame {
 					if (Nom_Prenom.getText().length() < 50) {
 						UserDAO userdao = new UserDAO();
 						userdao.insertUser(Nom_Prenom.getText());
-						
+
 						setVisible(false);
 						dispose();
 						GestionComptes listes = new GestionComptes();
@@ -66,7 +71,7 @@ public class UserView extends JFrame {
 						obligatoirelabel.setText("* Maximum 50 caracteres");
 						obligatoirelabel.setVisible(true);
 					}
-				} else { 
+				} else {
 					obligatoirelabel.setText("* Champ obligatoire");
 					obligatoirelabel.setVisible(true);
 				}
@@ -75,14 +80,14 @@ public class UserView extends JFrame {
 
 			}
 
-			
 		});
 
 		getContentPane().add(validerbtn);
 
-		obligatoirelabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		//JLabel obligatoirelabel = new JLabel("*Champ obligatoire: maximum 50 caractères");
+		obligatoirelabel.setFont(new Font("SansSerif", Font.BOLD, 12));
 		obligatoirelabel.setForeground(new Color(255, 0, 0));
-		obligatoirelabel.setBounds(610, 344, 118, 36);
+		obligatoirelabel.setBounds(761, 317, 306, 16);
 		getContentPane().add(obligatoirelabel);
 		obligatoirelabel.setVisible(false);
 
