@@ -16,8 +16,8 @@ public class OuvertureView extends JFrame {
 	private JTextField textFieldSolde;
 	private JLabel lblNewLabelEpargne = new JLabel();
 	private JLabel lblNewLabelCourant = new JLabel();
-	private JRadioButton rdbtnRadioButtonCourant = new JRadioButton();
-	private JRadioButton rdbtnRadioButtonEpargne = new JRadioButton();
+	private JRadioButton rdbtnRadioButtonCourant = new JRadioButton("Compte Courant");
+	private JRadioButton rdbtnRadioButtonEpargne = new JRadioButton("Compte Epargne");
 
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
@@ -35,18 +35,11 @@ public class OuvertureView extends JFrame {
 		JPanel contentPane = (JPanel) this.getContentPane();
 		contentPane.setLayout(null);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setFont(new Font("SansSerif", Font.PLAIN, 22));
-		comboBox.setBounds(400, 130, 450, 40);
-		getContentPane().add(comboBox);
-
-		//JRadioButton rdbtnRadioButtonEpargne = new JRadioButton("Compte Epargne");
 		rdbtnRadioButtonEpargne.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnRadioButtonEpargne.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		rdbtnRadioButtonEpargne.setBounds(167, 180, 220, 35);
 		getContentPane().add(rdbtnRadioButtonEpargne);
 
-//		JRadioButton rdbtnRadioButtonCourant = new JRadioButton("Compte Courant");
 		rdbtnRadioButtonCourant.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnRadioButtonCourant.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		rdbtnRadioButtonCourant.setBounds(862, 180, 220, 35);
@@ -58,7 +51,7 @@ public class OuvertureView extends JFrame {
 
 		JButton btnNewValiderButton = new JButton("Valider");
 		btnNewValiderButton.setFont(new Font("SansSerif", Font.PLAIN, 22));
-		btnNewValiderButton.setBounds(515, 467, 212, 41);
+		btnNewValiderButton.setBounds(347, 466, 212, 41);
 		getContentPane().add(btnNewValiderButton);
 
 		textFieldNom = new JTextField();
@@ -111,9 +104,23 @@ public class OuvertureView extends JFrame {
 		lblNewLabelCourant.setBounds(825, 213, 299, 40);
 		getContentPane().add(lblNewLabelCourant);
 		lblNewLabelCourant.setText("Frais de transfert de 2€, Solde minimum 0€");
+		
+		JLabel lblNumroDeCompte = new JLabel("Numéro de compte");
+		lblNumroDeCompte.setFont(new Font("SansSerif", Font.PLAIN, 20));
+		lblNumroDeCompte.setBounds(450, 122, 188, 26);
+		getContentPane().add(lblNumroDeCompte);
+		
+		JButton btnAnnuler = new JButton("Annuler");
+		btnAnnuler.setFont(new Font("SansSerif", Font.PLAIN, 22));
+		btnAnnuler.setBounds(685, 466, 212, 41);
+		getContentPane().add(btnAnnuler);
+		
+		JPanel panelNumeroCompte = new JPanel();
+		panelNumeroCompte.setBackground(new Color(255, 255, 255));
+		panelNumeroCompte.setBounds(450, 160, 343, 41);
+		getContentPane().add(panelNumeroCompte);
 		lblNewLabelCourant.setVisible(false);			
 	
-
 
 		rdbtnRadioButtonEpargne.addActionListener(new ActionListener() {
 
@@ -122,6 +129,7 @@ public class OuvertureView extends JFrame {
 
 			if (rdbtnRadioButtonEpargne.isSelected()) {
 					lblNewLabelEpargne.setVisible(true);
+					lblNewLabelCourant.setVisible(false);
 			}else {
 					lblNewLabelEpargne.setVisible(false);			
 				}
@@ -135,6 +143,7 @@ public class OuvertureView extends JFrame {
 
 				if (rdbtnRadioButtonCourant.isSelected()) {
 						lblNewLabelCourant.setVisible(true);
+						lblNewLabelEpargne.setVisible(false);
 				}else {
 						lblNewLabelCourant.setVisible(false);			
 					}
@@ -142,6 +151,5 @@ public class OuvertureView extends JFrame {
 				}
 			});	
 		}
-
 	}
 

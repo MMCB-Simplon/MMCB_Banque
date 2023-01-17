@@ -31,10 +31,10 @@ import Dao.DatabaseConnection;
 import controllers.Operation;
 import models.CompteModel;
 import models.CompteCourantModel;
+import javax.swing.border.LineBorder;
 
 public class TransfertView extends JFrame {
 	private JTextField textField;
-	private JTextField textFieldCompteSource;
 
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
@@ -86,10 +86,14 @@ public class TransfertView extends JFrame {
 		lblMontantLabel.setBounds(463, 355, 242, 29);
 		getContentPane().add(lblMontantLabel);
 		
-		textFieldCompteSource = new JTextField();
-		textFieldCompteSource.setBounds(400, 130, 450, 40);
-		getContentPane().add(textFieldCompteSource);
-		textFieldCompteSource.setColumns(10);
+		JLabel lblCompteSource = new JLabel("");
+		lblCompteSource.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		lblCompteSource.setBackground(new Color(255, 255, 255));
+		lblCompteSource.setFont(new Font("SansSerif", Font.PLAIN, 22));
+		lblCompteSource.setBounds(400, 130, 450, 40);
+		lblCompteSource.setVisible(true);
+		getContentPane().add(lblCompteSource);
 		
+			
 	}
 }
