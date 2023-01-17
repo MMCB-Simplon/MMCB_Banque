@@ -12,7 +12,9 @@ public class Main {
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
 		UserView userView = new UserView();
 		userView.setVisible(true);
-		}
+
+		
+	}
 	}
 
 

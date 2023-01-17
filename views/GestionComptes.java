@@ -1,6 +1,8 @@
 package views;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.List;
@@ -13,7 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import controllers.OuvetureController;
 import dao.CompteDAO;
+import dao.UserDAO;
 import models.CompteModel;
 
 public class GestionComptes extends JFrame {
@@ -43,6 +47,19 @@ public class GestionComptes extends JFrame {
 		btnCreerCompte.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		btnCreerCompte.setBounds(275, 265, 285, 40);
 		getContentPane().add(btnCreerCompte);
+		
+		btnCreerCompte.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+						OuvertureView ouvertureCompte = new OuvertureView();
+						ouvertureCompte.setVisible(true);
+
+						setVisible(false);
+						dispose();
+			}
+
+		});
 
 		JButton btnCrediterCompte = new JButton("Créditer un compte");
 		btnCrediterCompte.setFont(new Font("SansSerif", Font.PLAIN, 22));
@@ -58,6 +75,17 @@ public class GestionComptes extends JFrame {
 		btnTransferer.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		btnTransferer.setBounds(680, 265, 285, 40);
 		getContentPane().add(btnTransferer);
+		btnTransferer.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+						TransfertView transfertCompte = new TransfertView(selectedCompte, numeroCompte);
+						transfertCompte.setVisible(true);
+						setVisible(false);
+						dispose();
+			}
+
+		});
 
 		JButton btnModifier = new JButton("Modifier un compte");
 		btnModifier.setFont(new Font("SansSerif", Font.PLAIN, 22));
@@ -71,7 +99,7 @@ public class GestionComptes extends JFrame {
 
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		comboBox.setBounds(400, 162, 453, 40);
+		comboBox.setBounds(400, 162, 512, 40);
 		getContentPane().add(comboBox);
 //		remplissage de la list des comptes
 		ConcatList();
@@ -81,7 +109,7 @@ public class GestionComptes extends JFrame {
 		btnCrediterCompte.setEnabled(false);
 		btnCloturerCompte.setEnabled(false);
 		btnDebiterCompte.setEnabled(false);
-
+      
 		comboBox.addItemListener(new ItemListener() {
 
 			@Override
@@ -158,4 +186,6 @@ public class GestionComptes extends JFrame {
 		gestion.setVisible(true);
 
 	}
+	
+
 }

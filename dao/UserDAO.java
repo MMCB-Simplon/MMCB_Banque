@@ -40,6 +40,7 @@ public class UserDAO extends DatabaseConnection {
 		    String prenom="caroline";
 			 stmt.executeUpdate("INSERT INTO user (nom_prenom) VALUES ('"+user.getRaison_sociale()+"')");
 			con.close();
+			
 		} catch (Exception e) {
 			System.out.println(e);
 		}

@@ -58,9 +58,7 @@ public class CompteModel {
 		this.prenom = prenom;
 	}
 
-	public double getSolde(double d) {
-		return solde;
-	}
+	
 
 	public void setSolde(double solde) {
 		this.solde = solde;
