@@ -97,8 +97,6 @@ public class OuvertureView extends JFrame {
 		lblNewLabelEpargne.setText("Taux d'intérêt de 20%; Plafond de 10 000€");
 		lblNewLabelEpargne.setVisible(false);
 
-
-
 		lblNewLabelCourant.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabelCourant.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		lblNewLabelCourant.setBounds(825, 213, 299, 40);

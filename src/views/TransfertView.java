@@ -38,8 +38,8 @@ public class TransfertView extends JFrame {
 
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
-		OuvertureView OuvertureView = new OuvertureView();
-		OuvertureView.setVisible(true);
+		TransfertView TransfertView = new TransfertView();
+		TransfertView.setVisible(true);
 	}
 
 	public TransfertView() {
@@ -91,7 +91,6 @@ public class TransfertView extends JFrame {
 		lblCompteSource.setBackground(new Color(255, 255, 255));
 		lblCompteSource.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		lblCompteSource.setBounds(400, 130, 450, 40);
-		lblCompteSource.setVisible(true);
 		getContentPane().add(lblCompteSource);
 		
 			

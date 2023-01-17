@@ -24,8 +24,8 @@ public class ModifierView extends JFrame {
 	
 	public static void main (String [] args) throws Exception {
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
-		OuvertureView OuvertureView = new OuvertureView();
-		OuvertureView.setVisible(true);
+		ModifierView ModifierView = new ModifierView();
+		ModifierView.setVisible(true);
 	}
 	public ModifierView () {
 		super("Transfert");

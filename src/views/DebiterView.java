@@ -21,8 +21,8 @@ public class DebiterView extends JFrame {
 	
 	public static void main (String [] args) throws Exception {
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
-		OuvertureView OuvertureView = new OuvertureView();
-		OuvertureView.setVisible(true);	
+		DebiterView DebiterView = new DebiterView();
+		DebiterView.setVisible(true);	
 }
 	public DebiterView() {
 		super("Débiter le compte");
