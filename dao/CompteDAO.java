@@ -2,6 +2,8 @@ package dao;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 import models.CompteCourantModel;
 import models.CompteEpargneModel;
@@ -17,9 +19,9 @@ public class CompteDAO extends DatabaseConnection {
 	
 	
 	
-	 public ArrayList<CompteModel>   readListeCompte () {
+	 public List <CompteModel>   readListeCompte () {
          
-	      ArrayList<CompteModel> listcompte= new ArrayList<CompteModel>();
+	     List  <CompteModel> listcompte= new Vector<CompteModel>();
 	        Connection con = this.BDDconnection();
 	        try {
 	            
@@ -146,22 +148,22 @@ public class CompteDAO extends DatabaseConnection {
 			System.out.println(e);
 		}
 	}
-
-	public static void main(String[] args) {
-
-		ArrayList listeCompte = new ArrayList<CompteModel>();
-		
-		
-		CompteDAO compteBanque = new CompteDAO();
-		//compteBanque.readCompte();
-		//compteBanque.insertCompte();
-		// compteBanque.deleteCompte();
-		// compteBanque.updateCompte();
-		listeCompte = compteBanque.readListeCompte();
-		
-		System.out.println(listeCompte);
-		
-		
-	}
+//
+//	public static void main(String[] args) {
+//
+//		ArrayList listeCompte = new ArrayList<CompteModel>();
+//		
+//		
+//		CompteDAO compteBanque = new CompteDAO();
+//		//compteBanque.readCompte();
+//		//compteBanque.insertCompte();
+//		// compteBanque.deleteCompte();
+//		// compteBanque.updateCompte();
+//		listeCompte = compteBanque.readListeCompte();
+//		
+//		System.out.println(listeCompte);
+//		
+//		
+//	}
 
 }

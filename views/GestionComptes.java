@@ -1,30 +1,27 @@
 package views;
 
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.JScrollBar;
-import java.awt.event.ActionListener;
+import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
-import java.awt.event.ActionEvent;
+import java.util.List;
+import java.util.Vector;
+
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import dao.CompteDAO;
 import models.CompteModel;
-
-import java.awt.Font;
 
 public class GestionComptes extends JFrame {
 
 	private String selectedCompte;
 	private int numeroCompte;
 	private String typeCompte = " ";
+	private JComboBox comboBox;
 
 	public GestionComptes() {
 		super("Liste des comptes");
@@ -72,12 +69,12 @@ public class GestionComptes extends JFrame {
 		btnCloturerCompte.setBounds(680, 515, 285, 40);
 		getContentPane().add(btnCloturerCompte);
 
-		
-
-		JComboBox comboBox = new JComboBox(ConcatList());
+		comboBox = new JComboBox();
 		comboBox.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		comboBox.setBounds(400, 162, 453, 40);
 		getContentPane().add(comboBox);
+//		remplissage de la list des comptes
+		ConcatList();
 
 		btnTransferer.setEnabled(false);
 		btnModifier.setEnabled(false);
@@ -91,59 +88,74 @@ public class GestionComptes extends JFrame {
 			public void itemStateChanged(ItemEvent e) {
 
 				if (e.getSource() == comboBox) {
+					if (!comboBox.getSelectedItem().toString().equals("selectionner un compte")) {
+						selectedCompte = comboBox.getSelectedItem().toString();
 
-					selectedCompte = comboBox.getSelectedItem().toString();
-					typeCompte = selectedCompte.substring(7, 14);
-					String caster = selectedCompte.substring(18, 24);
-					numeroCompte = Integer.parseInt(caster);
+						typeCompte = selectedCompte.substring(7, 14);
+						String caster = selectedCompte.substring(18, 24);
+						numeroCompte = Integer.parseInt(caster);
+						System.out.println(selectedCompte);
+						if (typeCompte.equals("courant")) {
+							btnTransferer.setEnabled(true);
+							btnModifier.setEnabled(true);
+							btnCrediterCompte.setEnabled(true);
+							btnCloturerCompte.setEnabled(true);
+							btnDebiterCompte.setEnabled(true);
+							btnTransferer.setEnabled(true);
 
-					if (typeCompte.equals("courant")) {
-						btnTransferer.setEnabled(true);
-						btnModifier.setEnabled(true);
-						btnCrediterCompte.setEnabled(true);
-						btnCloturerCompte.setEnabled(true);
-						btnDebiterCompte.setEnabled(true);
-						btnTransferer.setEnabled(true);
+						} else if (typeCompte.equals("epargne")) {
+							btnTransferer.setEnabled(true);
+							btnModifier.setEnabled(true);
+							btnCrediterCompte.setEnabled(true);
+							btnCloturerCompte.setEnabled(true);
+							btnDebiterCompte.setEnabled(true);
+							btnTransferer.setEnabled(false);
+						}
 
-					} else if (typeCompte.equals("epargne")) {
-						btnTransferer.setEnabled(true);
-						btnModifier.setEnabled(true);
-						btnCrediterCompte.setEnabled(true);
-						btnCloturerCompte.setEnabled(true);
-						btnDebiterCompte.setEnabled(true);
+					}
+					else {
 						btnTransferer.setEnabled(false);
-					} 
+						btnModifier.setEnabled(false);
+						btnCrediterCompte.setEnabled(false);
+						btnCloturerCompte.setEnabled(false);
+						btnDebiterCompte.setEnabled(false);
+
+						
+					}
+
+					// TODO Auto-generated method stub
 
 				}
-
-				// TODO Auto-generated method stub
-
 			}
 		});
-		System.out.println(comboBox.getItemCount());
 
 	}
 
-	public String[] ConcatList() {
+	public void ConcatList() {
 		CompteDAO gestionComptes = new CompteDAO();
 
-		ArrayList<CompteModel> listecompte = new ArrayList<CompteModel>();
+		List<CompteModel> listecompte = new Vector<CompteModel>();
 		listecompte = gestionComptes.readListeCompte();
-		int taille = listecompte.size();
 
-		String[] Combobox = new String[taille + 1];
-		int i = 1;
-		Combobox[0] = " selectionner un compte";
-		for (CompteModel compte : listecompte) {
+		String itemCombox = "";
 
-			Combobox[i] = "Compte " + compte.getTypeCompte() + " n° " + compte.getNumerocompte() + "-" + compte.getNom()
-					+ "_" + compte.getPrenom() + " - Solde: " + compte.getSolde() + "€";
+		comboBox.addItem("selectionner un compte");
+		for (int i = 0; i < listecompte.size(); i++) {
 
-			i++;
+			itemCombox = "Compte " + listecompte.get(i).getTypeCompte() + " n° " + listecompte.get(i).getNumerocompte()
+					+ "-" + listecompte.get(i).getNom() + "_" + listecompte.get(i).getPrenom() + " - Solde: "
+					+ listecompte.get(i).getSolde() + "€";
+
+			comboBox.addItem(itemCombox);
+
 		}
-
-		return Combobox;
 
 	}
 
+	public static void main(String[] args) {
+		GestionComptes gestion = new GestionComptes();
+		// gestion.ConcatList();
+		gestion.setVisible(true);
+
+	}
 }
