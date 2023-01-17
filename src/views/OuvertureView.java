@@ -16,6 +16,8 @@ public class OuvertureView extends JFrame {
 	private JTextField textFieldSolde;
 	private JLabel lblNewLabelEpargne = new JLabel();
 	private JLabel lblNewLabelCourant = new JLabel();
+	private JRadioButton rdbtnRadioButtonCourant = new JRadioButton();
+	private JRadioButton rdbtnRadioButtonEpargne = new JRadioButton();
 
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
@@ -38,13 +40,13 @@ public class OuvertureView extends JFrame {
 		comboBox.setBounds(400, 130, 450, 40);
 		getContentPane().add(comboBox);
 
-		JRadioButton rdbtnRadioButtonEpargne = new JRadioButton("Compte Epargne");
+		//JRadioButton rdbtnRadioButtonEpargne = new JRadioButton("Compte Epargne");
 		rdbtnRadioButtonEpargne.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnRadioButtonEpargne.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		rdbtnRadioButtonEpargne.setBounds(167, 180, 220, 35);
 		getContentPane().add(rdbtnRadioButtonEpargne);
 
-		JRadioButton rdbtnRadioButtonCourant = new JRadioButton("Compte Courant");
+//		JRadioButton rdbtnRadioButtonCourant = new JRadioButton("Compte Courant");
 		rdbtnRadioButtonCourant.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnRadioButtonCourant.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		rdbtnRadioButtonCourant.setBounds(862, 180, 220, 35);
@@ -98,33 +100,48 @@ public class OuvertureView extends JFrame {
 		lblNewLabelEpargne.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabelEpargne.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		lblNewLabelEpargne.setBounds(121, 213, 299, 40);
-		getContentPane().add(lblNewLabelEpargne);
+		getContentPane().add(lblNewLabelEpargne);		
+		lblNewLabelEpargne.setText("Taux d'intérêt de 20%; Plafond de 10 000€");
+		lblNewLabelEpargne.setVisible(false);
+
+
 
 		lblNewLabelCourant.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabelCourant.setFont(new Font("SansSerif", Font.PLAIN, 14));
 		lblNewLabelCourant.setBounds(825, 213, 299, 40);
 		getContentPane().add(lblNewLabelCourant);
-
-//		lblNewLabelEpargne.addActionListener(new ActionListener());
-//		lblNewLabelCourant.addActionListener(new ActionListener());
-//
-//		@Override
-//		public actionPerformed(ActionEvent e) {
-//
-//			if (rdbtnRadioButtonEpargne.isSelected()) {
-		lblNewLabelEpargne.setText("Taux d'intérêt de 20%; Plafond de 10 000€");
-//					lblNewLabelEpargne.setVisible(true);
-//					lblNewLabelCourant.setVisible(false);			
-//
-//				else {
-//					if (rdbtnRadioButtonCourant.isSelected()) {			 
 		lblNewLabelCourant.setText("Frais de transfert de 2€, Solde minimum 0€");
-//				lblNewLabelCourant.setVisible(true);
-//				lblNewLabelEpargne.setVisible(false);			
-//				}
-//				}
-//			}
-//		}
+		lblNewLabelCourant.setVisible(false);			
+	
+
+
+		rdbtnRadioButtonEpargne.addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			if (rdbtnRadioButtonEpargne.isSelected()) {
+					lblNewLabelEpargne.setVisible(true);
+			}else {
+					lblNewLabelEpargne.setVisible(false);			
+				}
+				
+			}
+		});	
+		
+		rdbtnRadioButtonCourant.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if (rdbtnRadioButtonCourant.isSelected()) {
+						lblNewLabelCourant.setVisible(true);
+				}else {
+						lblNewLabelCourant.setVisible(false);			
+					}
+					
+				}
+			});	
+		}
 
 	}
-}
+
