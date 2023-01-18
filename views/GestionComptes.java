@@ -65,6 +65,17 @@ public class GestionComptes extends JFrame {
 		btnCrediterCompte.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		btnCrediterCompte.setBounds(275, 390, 285, 40);
 		getContentPane().add(btnCrediterCompte);
+		btnCrediterCompte.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+						CrediterView creditercompte = new CrediterView(selectedCompte, typeCompte);
+						creditercompte.setVisible(true);
+						setVisible(false);
+						dispose();
+			}
+
+		});
 
 		JButton btnDebiterCompte = new JButton("Débiter un compte");
 		btnDebiterCompte.setFont(new Font("SansSerif", Font.PLAIN, 22));

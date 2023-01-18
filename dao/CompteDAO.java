@@ -192,41 +192,70 @@ public class CompteDAO extends DatabaseConnection {
 
 	}
 
-	public double crediter(int numerocompte, double montant, double solde) {
-		return solde + montant;
+	public boolean crediter(int numerocompte, double montant, double solde, String typeCompte) {
+		Connection con = this.BDDconnection();
+		double nouveauSolde = 0;
+		boolean isCredited = false;
+		
+		CompteModel compte = new CompteModel();
+		compte = getSoldeFromDatabase(numerocompte);
+		nouveauSolde = compte.getSolde() + montant;
+		
+		if (typeCompte.equals("courant"))
+		try {
+			java.sql.Statement stmt = con.createStatement();
+			String sql = "UPDATE compte SET solde = " + nouveauSolde + " WHERE numerocompte = " + numerocompte + "";
+			stmt.executeUpdate(sql);
+			con.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		
+		return true;
 	}
 
 	public double debiter(int numerocompte, double montant, double solde) {
 		return solde - montant;
 	}
 
-	public boolean  transfert(int compte1, int compte2, double montant) {
+	public boolean transfert(int numerocompte1, int numerocompte2, Double montant, String typecompte) {
 		double nouveausolde1 = 0;
 		double nouveausolde2 = 0.0;
+		boolean istransfered = false;
+		boolean soldeSupr = false;
 
-		CompteModel compte = new CompteModel();
-  boolean istransfered=false;
-		compte = getSoldeFromDatabase(compte1);
+		CompteModel compte1 = new CompteModel();
+		CompteModel compte2 = new CompteModel();
 
-		nouveausolde1 = compte.getSolde() - CompteCourantModel.getFraisTransfert() - montant;
+		compte1 = getSoldeFromDatabase(numerocompte1);
+		compte2=getSoldeFromDatabase(numerocompte2);
+
+		nouveausolde1 = compte1.getSolde() - CompteCourantModel.getFraisTransfert() - montant;
 		if (nouveausolde1 > 0) {
-			updateCompte(compte1, nouveausolde1);
-
-			compte = getSoldeFromDatabase(compte2);
-
-			nouveausolde2 = compte.getSolde() + montant;
+			nouveausolde2 = compte2.getSolde() + montant;
 			
 
-			updateCompte(compte2, nouveausolde2);
-			
-			istransfered=true;
-		}else {System.out.println("Montant saisi superieur au solde");
-		istransfered=false;
+			if (typecompte.equals("epargne") && nouveausolde2 < CompteEpargneModel.getPlafond()) {
+				updateCompte(numerocompte2, nouveausolde2);
+				updateCompte(numerocompte1, nouveausolde1);
+				istransfered = true;
+			} else if (typecompte.equals("courant")) {
+				updateCompte(numerocompte2, nouveausolde2);
+				updateCompte(numerocompte1, nouveausolde1);
+				istransfered = true;
+			} else
+				istransfered = false;
+
+			// updateCompte(compte2, nouveausolde2);
+		}
+
+		else {
+			System.out.println("Montant saisi superieur au solde");
+			istransfered = false;
 		}
 		return istransfered;
-		}
-
-	
+	}
 
 	public double modifier(int numerocompte, double montant, double solde) {
 

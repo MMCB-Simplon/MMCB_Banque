@@ -2,13 +2,13 @@ package models;
 
 public class CompteEpargneModel extends CompteModel {
 	private final double tauxInteret = 1.2;
-	private final double plafond = 100000;
+	private final static double plafond = 1000;
 
 	public double getTauxInteret() {
 		return tauxInteret;
 	}
 
-	public double getPlafond() {
+	public static  double getPlafond() {
 		return plafond;
 	}
 
