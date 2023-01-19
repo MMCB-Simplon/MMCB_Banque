@@ -7,9 +7,13 @@ import javax.swing.JFrame;
 
 import controllers.Operation;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -17,7 +21,7 @@ import javax.swing.JTextField;
 
 public class DebiterView extends JFrame {
 	private JTextField textField;
-
+	private JButton btnValiderButton = new JButton("Valider");
 	
 	public static void main (String [] args) throws Exception {
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
@@ -46,12 +50,24 @@ public class DebiterView extends JFrame {
 		lblMontantLabel.setBounds(410, 180, 340, 20);
 		getContentPane().add(lblMontantLabel);
 		
-		JButton btnValiderButton = new JButton("Valider");
 		btnValiderButton.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		btnValiderButton.setBounds(477, 320, 212, 41);
 		getContentPane().add(btnValiderButton);
 			
-	
+		btnValiderButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				int res = JOptionPane.showConfirmDialog(contentPane, "Le compte a bien été débité de XX€",
+						"Message de confirmation", JOptionPane.PLAIN_MESSAGE);
+
+				if (btnValiderButton.isSelected()) {
+					return;
+				}
+			}
+		});
+		
+
 	}
 
 }

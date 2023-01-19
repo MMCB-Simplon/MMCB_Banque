@@ -13,7 +13,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.Color;
@@ -21,6 +25,8 @@ import java.awt.Color;
 
 public class ModifierView extends JFrame {
 	private JTextField textField;
+	private JButton btnNewButton = new JButton("Valider");
+
 	
 	public static void main (String [] args) throws Exception {
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
@@ -75,9 +81,25 @@ public class ModifierView extends JFrame {
 		getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Valider");
 		btnNewButton.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		btnNewButton.setBounds(519, 497, 212, 41);
 		getContentPane().add(btnNewButton);
+		
+		btnNewButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				int valid = JOptionPane.showConfirmDialog(contentPane, "Le compte a été modifié",
+						"Message de confirmation", JOptionPane.PLAIN_MESSAGE);
+				int invalid =JOptionPane.showConfirmDialog(contentPane, "Le compte n'a pas pu être modifié", "Message erreur", JOptionPane.ERROR_MESSAGE);
+
+				if () {
+					return;
+				} else { 
+					return invalid;}
+				
+				}
+			}
+		});
 	}
 }

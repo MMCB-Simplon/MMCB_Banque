@@ -15,8 +15,11 @@ import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import java.awt.Font;
+import javax.swing.JOptionPane;
 
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -35,6 +38,8 @@ import javax.swing.border.LineBorder;
 
 public class TransfertView extends JFrame {
 	private JTextField textField;
+	private JButton btnValiderButton = new JButton("Valider");
+
 
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
@@ -57,7 +62,6 @@ public class TransfertView extends JFrame {
 		comboBox.setBounds(400, 260, 450, 40);
 		getContentPane().add(comboBox);
 		
-		JButton btnValiderButton = new JButton("Valider");
 		btnValiderButton.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		btnValiderButton.setBounds(533, 483, 212, 41);
 		getContentPane().add(btnValiderButton);
@@ -93,6 +97,17 @@ public class TransfertView extends JFrame {
 		lblCompteSource.setBounds(400, 130, 450, 40);
 		getContentPane().add(lblCompteSource);
 		
-			
+		btnValiderButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				int res = JOptionPane.showConfirmDialog(contentPane, "Le transfert a été effectué",
+						"Message de confirmation", JOptionPane.PLAIN_MESSAGE);
+
+				if (btnValiderButton.isSelected()) {
+					return;
+				}
+			}
+		});
 	}
 }

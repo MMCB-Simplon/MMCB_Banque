@@ -54,28 +54,23 @@ public class CrediterView extends JFrame {
 		lblMontantLabel.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		lblMontantLabel.setBounds(410, 180, 340, 20);
 		getContentPane().add(lblMontantLabel);
-		
+
 		btnValiderButton.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		btnValiderButton.setBounds(477, 320, 212, 41);
 		getContentPane().add(btnValiderButton);
-		
+
 		btnValiderButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JLabel messagePopup =new JLabel("Le compte a bien été crédité de XX€");
-				messagePopup.setFont(new Font("SansSerif", Font.PLAIN, 14));
-				getContentPane().add(lblMontantLabel);
-				
-				JFrame frame = new JFrame("Message de confirmation");
-			    frame.add(messagePopup);
-			    frame.setBounds(450,300,400,100);
-				frame.setVisible(true);
-			    
+
+				int res = JOptionPane.showConfirmDialog(contentPane, "Le compte a bien été crédité de XX€",
+						"Message de confirmation", JOptionPane.PLAIN_MESSAGE);
+
 				if (btnValiderButton.isSelected()) {
-				JOptionPane.showMessageDialog(frame,"", "",JOptionPane.PLAIN_MESSAGE);				
-				}				
+					return;
+				}
 			}
-			});			
-	}	
+		});
+	}
 }
