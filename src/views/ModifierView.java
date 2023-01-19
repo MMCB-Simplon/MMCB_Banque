@@ -91,14 +91,16 @@ public class ModifierView extends JFrame {
 
 				int valid = JOptionPane.showConfirmDialog(contentPane, "Le compte a été modifié",
 						"Message de confirmation", JOptionPane.PLAIN_MESSAGE);
-				int invalid =JOptionPane.showConfirmDialog(contentPane, "Le compte n'a pas pu être modifié", "Message erreur", JOptionPane.ERROR_MESSAGE);
-
-				if () {
-					return;
-				} else { 
-					return invalid;}
 				
-				}
+				int invalid =JOptionPane.showConfirmDialog(contentPane, "Le compte n'a pas pu être modifié", "Message erreur", JOptionPane.PLAIN_MESSAGE);
+
+				if (valid ==JOptionPane.OK_OPTION) {
+					return;
+				} else if (invalid !=JOptionPane.OK_OPTION) {
+					return;
+					}
+				
+				
 			}
 		});
 	}
