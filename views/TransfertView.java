@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -48,10 +49,25 @@ public class TransfertView extends JFrame {
 
 		JPanel contentPane = (JPanel) this.getContentPane();
 		contentPane.setLayout(null);
+		
+		JButton annuleButton = new JButton("Annuler");
+		annuleButton.setFont(new Font("SansSerif", Font.PLAIN, 22));
+		annuleButton.setBounds(677, 476, 212, 41);
+		getContentPane().add(annuleButton);
+		
+		annuleButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				GestionComptes gestionCompte = new GestionComptes();
+				gestionCompte.setVisible(true);
+
+			}
+		});
 
 		JButton btnValiderButton = new JButton("Valider");
 		btnValiderButton.setFont(new Font("SansSerif", Font.PLAIN, 22));
-		btnValiderButton.setBounds(533, 483, 212, 41);
+		btnValiderButton.setBounds(383, 476, 212, 41);
 		getContentPane().add(btnValiderButton);
 
 		btnValiderButton.addActionListener(new ActionListener() {
@@ -68,7 +84,14 @@ public class TransfertView extends JFrame {
 						
 					   
 						if (transfertCompte.transfert(numerocompteSource, numeroCompteDestination, solde,typeCompte)) {
-							setVisible(false);
+							int res = JOptionPane.showConfirmDialog(contentPane, "Le transfert a bien été realisé",
+									"Message de confirmation", JOptionPane.PLAIN_MESSAGE);
+
+							if (btnValiderButton.isSelected()) {
+								return;
+							}
+						
+							
 							dispose();
 							System.out.println("ok");
 							GestionComptes listes = new GestionComptes();
@@ -101,7 +124,7 @@ public class TransfertView extends JFrame {
 
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("SansSerif", Font.PLAIN, 22));
-		comboBox.setBounds(400, 260, 512, 40);
+		comboBox.setBounds(296, 258, 684, 40);
 		getContentPane().add(comboBox);
 		ConcatList(compteSource);
 		comboBox.addItemListener(new ItemListener() {
@@ -130,13 +153,13 @@ public class TransfertView extends JFrame {
 		JLabel lblCompteSourceLabel = new JLabel("Compte Source :");
 		lblCompteSourceLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		lblCompteSourceLabel.setFont(new Font("SansSerif", Font.PLAIN, 22));
-		lblCompteSourceLabel.setBounds(400, 90, 186, 29);
+		lblCompteSourceLabel.setBounds(294, 90, 186, 29);
 		getContentPane().add(lblCompteSourceLabel);
 
 		JLabel lblCompteDestinateur = new JLabel("Compte Destinateur :");
 		lblCompteDestinateur.setHorizontalAlignment(SwingConstants.LEFT);
 		lblCompteDestinateur.setFont(new Font("SansSerif", Font.PLAIN, 22));
-		lblCompteDestinateur.setBounds(400, 219, 242, 29);
+		lblCompteDestinateur.setBounds(296, 219, 242, 29);
 		getContentPane().add(lblCompteDestinateur);
 
 		JLabel lblMontantLabel = new JLabel("Montant :");
@@ -149,7 +172,7 @@ public class TransfertView extends JFrame {
 		lblCompteSource.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		lblCompteSource.setBackground(new Color(255, 255, 255));
 		lblCompteSource.setFont(new Font("SansSerif", Font.PLAIN, 22));
-		lblCompteSource.setBounds(400, 130, 524, 40);
+		lblCompteSource.setBounds(288, 129, 701, 40);
 		getContentPane().add(lblCompteSource);
 
 		labelcontrolmontant = new JLabel("* Somme superieure au solde");
@@ -167,7 +190,7 @@ public class TransfertView extends JFrame {
 		labelChoixcompte = new JLabel("* Choisir un compte");
 		labelChoixcompte.setForeground(new Color(255, 0, 0));
 		labelChoixcompte.setFont(new Font("SansSerif", Font.PLAIN, 22));
-		labelChoixcompte.setBounds(932, 260, 232, 40);
+		labelChoixcompte.setBounds(990, 258, 196, 40);
 		getContentPane().add(labelChoixcompte);
 		labelChoixcompte.setVisible(false);
 

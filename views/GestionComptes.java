@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.Vector;
 
@@ -12,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -24,10 +26,11 @@ public class GestionComptes extends JFrame {
 	private int numeroCompte;
 	private String typeCompte = " ";
 	private JComboBox comboBox;
-
+   
 	public GestionComptes() {
 		super("Liste des comptes");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	//	this.addWindowListener(null);
 		this.setSize(1200, 650);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
@@ -58,6 +61,10 @@ public class GestionComptes extends JFrame {
 			}
 
 		});
+		
+		
+		
+		
 
 		JButton btnCrediterCompte = new JButton("Créditer un compte");
 		btnCrediterCompte.setFont(new Font("SansSerif", Font.PLAIN, 22));
@@ -75,10 +82,22 @@ public class GestionComptes extends JFrame {
 
 		});
 
-		JButton btnDebiterCompte = new JButton("Débiter un compte");
+	JButton	btnDebiterCompte = new JButton("Débiter un compte");
 		btnDebiterCompte.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		btnDebiterCompte.setBounds(275, 515, 285, 40);
 		getContentPane().add(btnDebiterCompte);
+	
+		btnDebiterCompte.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DebiterView debitcompte = new DebiterView(selectedCompte);
+						debitcompte.setVisible(true);
+						setVisible(false);
+						dispose();
+			}
+
+		});
 
 		JButton btnTransferer = new JButton("Transférer");
 		btnTransferer.setFont(new Font("SansSerif", Font.PLAIN, 22));
@@ -90,7 +109,7 @@ public class GestionComptes extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 						TransfertView transfertCompte = new TransfertView(selectedCompte, numeroCompte);
 						transfertCompte.setVisible(true);
-						setVisible(false);
+					
 						dispose();
 			}
 
@@ -100,11 +119,57 @@ public class GestionComptes extends JFrame {
 		btnModifier.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		btnModifier.setBounds(680, 390, 285, 40);
 		getContentPane().add(btnModifier);
+		
+		btnModifier.addActionListener(new ActionListener() {
+			@Override
+
+			public void actionPerformed(ActionEvent evt) {
+
+
+				ModifierView modifierCompte = new ModifierView(numeroCompte,selectedCompte, typeCompte);
+				modifierCompte.setVisible(true);
+				
+				dispose();
+					
+					
+				}
+					});
+
+		
+		
+		
+		
 
 		JButton btnCloturerCompte = new JButton("Clôturer un compte");
 		btnCloturerCompte.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		btnCloturerCompte.setBounds(680, 515, 285, 40);
 		getContentPane().add(btnCloturerCompte);
+		
+		btnCloturerCompte.addActionListener(new ActionListener() {
+			@Override
+
+			public void actionPerformed(ActionEvent evt) {
+
+			int res = JOptionPane.showConfirmDialog(contentPane, "Souhaitez-vous procéder à la clotûre de ce compte?",
+							"Clôturer Compte", JOptionPane.YES_NO_OPTION);
+
+			
+					if (res == JOptionPane.YES_OPTION)
+					{ 
+						CompteDAO compteDelete = new CompteDAO();
+						compteDelete.deleteCompte(numeroCompte);
+						dispose();
+						GestionComptes gestion = new GestionComptes();
+						gestion.setVisible(true);
+						
+						
+					}
+					else if (res == JOptionPane.NO_OPTION) {
+						
+					}
+					
+				}
+					});
 
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("SansSerif", Font.PLAIN, 15));
@@ -189,12 +254,16 @@ public class GestionComptes extends JFrame {
 
 	}
 
-	public static void main(String[] args) {
-		GestionComptes gestion = new GestionComptes();
-		// gestion.ConcatList();
-		gestion.setVisible(true);
-
-	}
 	
+//	public void windowClosing(WindowEvent e) 
+//	  {
+//		  int res = JOptionPane.showConfirmDialog(this, "Souhaitez-vous procéder à la fermeture de cette fenêtre?",
+//					"Fermer Site", JOptionPane.YES_NO_OPTION);
+//			if (res == JOptionPane.YES_OPTION)
+//				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//			else if (res == JOptionPane.NO_OPTION)
+//				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//	    }
+//	
 
 }

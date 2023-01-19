@@ -64,7 +64,7 @@ public class UserView extends JFrame {
 						UserDAO userdao = new UserDAO();
 						userdao.insertUser(Nom_Prenom.getText());
 
-						setVisible(false);
+						
 						dispose();
 						GestionComptes listes = new GestionComptes();
 						listes.setVisible(true);

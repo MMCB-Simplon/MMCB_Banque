@@ -94,10 +94,12 @@ public class CompteDAO extends DatabaseConnection {
 		}
 	}
 
-	public void deleteCompte() {
+	public void deleteCompte(int numerocompte) {
 		Connection con = this.BDDconnection();
-		int numerocompte = 134526;
+	
 		try {
+			
+			System.out.println(numerocompte);
 			java.sql.Statement stmt = con.createStatement();
 			String sql = "DELETE FROM compte WHERE numerocompte=" + numerocompte + "";
 			stmt.executeUpdate(sql);
@@ -168,6 +170,29 @@ public class CompteDAO extends DatabaseConnection {
 		return iduser;
 
 	}
+	
+	public String getLibelleCompte(int numerocompte) {
+		Connection con = this.BDDconnection();
+		String libelle = "";
+		
+		try {
+			java.sql.Statement stmt = con.createStatement();
+			
+			String getLibelle = "select prenom, nom  from compte where numerocompte = "+numerocompte+"";
+			ResultSet rs = stmt.executeQuery(getLibelle);
+			rs = stmt.executeQuery(getLibelle);
+			while (rs.next()) {
+					libelle = rs.getString(1)+"_"+rs.getString(2);
+			}
+			con.close();
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		return libelle;
+		
+	}
 
 	public int getGeneratedNumCompte() {
 
@@ -217,8 +242,27 @@ public class CompteDAO extends DatabaseConnection {
 		return isCredited;
 	}
 
-	public double debiter(int numerocompte, double montant, double solde) {
-		return solde - montant;
+	public Boolean debiter(int numerocompte, double montant) {
+		
+		Connection con = this.BDDconnection();
+		double nouveauSolde = 0;
+		boolean isDebited = false;
+		
+		CompteModel compte = new CompteModel();
+		compte = getSoldeFromDatabase(numerocompte);
+		nouveauSolde = compte.getSolde() - montant;
+		System.out.println(nouveauSolde);
+		if ( nouveauSolde>0)
+		
+		{
+			updateCompte(numerocompte, nouveauSolde);
+			isDebited=true;
+			
+		}
+		
+		
+		return isDebited;
+		
 	}
 
 	public boolean transfert(int numerocompte1, int numerocompte2, Double montant, String typecompte) {
@@ -260,6 +304,9 @@ public class CompteDAO extends DatabaseConnection {
 	}
 
 	public double modifier(int numerocompte, double montant, double solde) {
+		
+		
+
 
 		return solde = montant;
 	}

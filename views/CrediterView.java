@@ -52,9 +52,24 @@ public class CrediterView extends JFrame {
 		lblMontantLabel.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		lblMontantLabel.setBounds(410, 180, 340, 20);
 		getContentPane().add(lblMontantLabel);
+		
+		JButton annuleButton = new JButton("Annuler");
+		annuleButton.setFont(new Font("SansSerif", Font.PLAIN, 22));
+		annuleButton.setBounds(624, 318, 212, 41);
+		getContentPane().add(annuleButton);
+		
+		annuleButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				GestionComptes gestionCompte = new GestionComptes();
+				gestionCompte.setVisible(true);
+
+			}
+		});
 
 		btnValiderButton.setFont(new Font("SansSerif", Font.PLAIN, 22));
-		btnValiderButton.setBounds(477, 320, 212, 41);
+		btnValiderButton.setBounds(329, 318, 212, 41);
 		getContentPane().add(btnValiderButton);
 
 		labelcontrolemontant.setFont(new Font("Tahoma", Font.PLAIN, 19));
@@ -79,22 +94,16 @@ public class CrediterView extends JFrame {
 					if (typeCompte.equals("epargne")) {
 						if (compte.crediter(numeroCompte, Montant, typeCompte)) {
 
-							JLabel messagePopup = new JLabel("Le compte a bien été crédité de " + Montant + "€");
-							messagePopup.setFont(new Font("SansSerif", Font.PLAIN, 14));
-							getContentPane().add(lblMontantLabel);
+							int res = JOptionPane.showConfirmDialog(contentPane, "Le compte a bien été crédité de: "+Montant+"€",
+									"Message de confirmation", JOptionPane.PLAIN_MESSAGE);
 
-							JFrame frame = new JFrame("Message de confirmation");
-							frame.getContentPane().add(messagePopup);
-							frame.setBounds(450, 300, 400, 100);
-							frame.setVisible(true);
-
-							JOptionPane.showMessageDialog(frame, "", "", JOptionPane.PLAIN_MESSAGE);
-//							if (btnValiderButton.isSelected()) {
-//								
-//							}
+							if (btnValiderButton.isSelected()) {
+								return;
+							}
+						
 							GestionComptes gestion = new GestionComptes();
 							gestion.setVisible(true);
-							setVisible(false);
+						
 							dispose();
 							
 						} else {
@@ -105,20 +114,14 @@ public class CrediterView extends JFrame {
 					} else if (typeCompte.equals("courant")) {
 						if (compte.crediter(numeroCompte, Montant, typeCompte)) {
 
-							JLabel messagePopup = new JLabel("Le compte a bien été crédité de " + Montant + "€");
-							messagePopup.setFont(new Font("SansSerif", Font.PLAIN, 14));
-							getContentPane().add(lblMontantLabel);
+							int res = JOptionPane.showConfirmDialog(contentPane, "Le compte a bien été crédité de: "+Montant+"€",
+									"Message de confirmation", JOptionPane.PLAIN_MESSAGE);
 
-							JFrame frame = new JFrame("Message de confirmation");
-							frame.getContentPane().add(messagePopup);
-							frame.setBounds(450, 300, 400, 100);
-							frame.setVisible(true);
+							if (btnValiderButton.isSelected()) {
+								return;
+							}
+						
 
-							JOptionPane.showMessageDialog(frame, "", "", JOptionPane.PLAIN_MESSAGE);
-
-//							if (btnValiderButton.isSelected()) {
-//								
-//							}
 							GestionComptes gestion = new GestionComptes();
 							gestion.setVisible(true);
 							setVisible(false);

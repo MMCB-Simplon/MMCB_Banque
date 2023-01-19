@@ -74,9 +74,18 @@ public class OuvertureView extends JFrame {
 						if (solde_initial < CompteEpargneModel.getPlafond()) {
 							compte.insertCompte(numerocompte, iduser, textFieldNom.getText(), textFieldPrenom.getText(),
 									solde_initial, typeCompte);
+							
+							
+								int res = JOptionPane.showConfirmDialog(contentPane, "Le compte a bien été créé",
+										"Message de confirmation", JOptionPane.PLAIN_MESSAGE);
+
+								if (btnNewValiderButton.isSelected()) {
+									return;
+								}
+							
 							GestionComptes gestionCompte = new GestionComptes();
 							gestionCompte.setVisible(true);
-							setVisible(false);
+						
 							dispose();
 						} else {
 							labelcontroleSolde.setText("* Le solde initial ne peut exceder le plafond");
