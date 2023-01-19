@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import dao.CompteDAO;
+import models.CompteCourantModel;
+import models.CompteEpargneModel;
 
 public class OuvertureView extends JFrame {
 	private JTextField textFieldNom;
@@ -20,16 +22,19 @@ public class OuvertureView extends JFrame {
 	private JLabel lblNewLabelCourant = new JLabel();
 	private JRadioButton rdbtnRadioButtonCourant = new JRadioButton("Compte Courant");
 	private JRadioButton rdbtnRadioButtonEpargne = new JRadioButton("Compte Epargne");
+	private JLabel labelcontroleSolde = new JLabel("* Le solde initial ne peut exceder le plafond");
 	private String typeCompte;
 	private int numerocompte;
-    private int  iduser;
+	private int iduser;
 
 	public OuvertureView() {
 		super("Ouvrir un compte");
-
-	CompteDAO compte = new CompteDAO();
-	 iduser =compte.getIduser();
+		
+		
+		CompteDAO compte = new CompteDAO();
+		iduser = compte.getIduser();
 		numerocompte = compte.getGeneratedNumCompte();
+		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 16));
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(1200, 650);
@@ -62,22 +67,31 @@ public class OuvertureView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if(rdbtnRadioButtonCourant.isSelected() || rdbtnRadioButtonEpargne.isSelected() ) {
-					if (!(textFieldNom.getText().equals("") && textFieldPrenom.getText().equals("")
-							&& textFieldSolde.getText().equals(""))) {
-						double solde = Double.parseDouble(textFieldSolde.getText());
-						compte.insertCompte(numerocompte, iduser, textFieldNom.getText(),textFieldPrenom.getText() , solde , typeCompte);
-						GestionComptes gestionCompte = new GestionComptes();
-						gestionCompte.setVisible(true);
-						setVisible(false);
-						dispose();
+				if (rdbtnRadioButtonCourant.isSelected() || rdbtnRadioButtonEpargne.isSelected()) {
+					if (!(textFieldNom.getText().equals("") || textFieldPrenom.getText().equals("")
+							|| textFieldSolde.getText().equals(""))) {
+						double solde_initial = Double.parseDouble(textFieldSolde.getText());
+						if (solde_initial < CompteEpargneModel.getPlafond()) {
+							compte.insertCompte(numerocompte, iduser, textFieldNom.getText(), textFieldPrenom.getText(),
+									solde_initial, typeCompte);
+							GestionComptes gestionCompte = new GestionComptes();
+							gestionCompte.setVisible(true);
+							setVisible(false);
+							dispose();
+						} else {
+							labelcontroleSolde.setText("* Le solde initial ne peut exceder le plafond");
+
+							labelcontroleSolde.setVisible(true);
+						}
+					} else {
+						labelcontroleSolde.setText(" * Tous les champs sont obligatoires");
+						labelcontroleSolde.setVisible(true);
 					}
 				} else {
 					rdbtnRadioButtonCourant.setForeground(new Color(255, 0, 0));
 					rdbtnRadioButtonEpargne.setForeground(new Color(255, 0, 0));
 				}
-				
-				
+
 			}
 		});
 
@@ -129,19 +143,23 @@ public class OuvertureView extends JFrame {
 		lblNewLabelCourant.setBounds(825, 213, 299, 40);
 		getContentPane().add(lblNewLabelCourant);
 		lblNewLabelCourant.setText("Frais de transfert de 2€, Solde minimum 0€");
-
-		JLabel lblNumroDeCompte = new JLabel("Numéro de compte : "+ numerocompte);
+		lblNewLabelCourant.setVisible(false);
+		JLabel lblNumroDeCompte = new JLabel("Numéro de compte : " + numerocompte);
 		lblNumroDeCompte.setFont(new Font("SansSerif", Font.PLAIN, 20));
 		lblNumroDeCompte.setBounds(450, 122, 300, 26);
 		getContentPane().add(lblNumroDeCompte);
-		
 
 		JButton btnAnnuler = new JButton("Annuler");
 		btnAnnuler.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		btnAnnuler.setBounds(685, 466, 212, 41);
 		getContentPane().add(btnAnnuler);
-		lblNewLabelCourant.setVisible(false);
-		
+
+		labelcontroleSolde.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		labelcontroleSolde.setForeground(new Color(255, 0, 0));
+		labelcontroleSolde.setBounds(812, 390, 364, 41);
+		getContentPane().add(labelcontroleSolde);
+		labelcontroleSolde.setVisible(false);
+
 		btnAnnuler.addActionListener(new ActionListener() {
 
 			@Override
@@ -157,7 +175,7 @@ public class OuvertureView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-   
+
 				if (rdbtnRadioButtonEpargne.isSelected()) {
 					lblNewLabelEpargne.setVisible(true);
 					lblNewLabelCourant.setVisible(false);

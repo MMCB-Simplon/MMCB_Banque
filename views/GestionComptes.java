@@ -15,9 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import controllers.OuvetureController;
 import dao.CompteDAO;
-import dao.UserDAO;
 import models.CompteModel;
 
 public class GestionComptes extends JFrame {
@@ -69,7 +67,7 @@ public class GestionComptes extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-						CrediterView creditercompte = new CrediterView(selectedCompte, typeCompte);
+						CrediterView creditercompte = new CrediterView(selectedCompte);
 						creditercompte.setVisible(true);
 						setVisible(false);
 						dispose();

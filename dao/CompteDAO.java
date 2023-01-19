@@ -192,7 +192,7 @@ public class CompteDAO extends DatabaseConnection {
 
 	}
 
-	public boolean crediter(int numerocompte, double montant, double solde, String typeCompte) {
+	public boolean crediter(int numerocompte, double montant, String typeCompte) {
 		Connection con = this.BDDconnection();
 		double nouveauSolde = 0;
 		boolean isCredited = false;
@@ -200,19 +200,21 @@ public class CompteDAO extends DatabaseConnection {
 		CompteModel compte = new CompteModel();
 		compte = getSoldeFromDatabase(numerocompte);
 		nouveauSolde = compte.getSolde() + montant;
+		System.out.println(nouveauSolde);
+		if (typeCompte.equals("courant")&& nouveauSolde<100000)
 		
-		if (typeCompte.equals("courant"))
-		try {
-			java.sql.Statement stmt = con.createStatement();
-			String sql = "UPDATE compte SET solde = " + nouveauSolde + " WHERE numerocompte = " + numerocompte + "";
-			stmt.executeUpdate(sql);
-			con.close();
-		} catch (Exception e) {
-			System.out.println(e);
+		{
+			updateCompte(numerocompte, nouveauSolde);
+			isCredited=true;
+			
+		}
+		else if (CompteEpargneModel.getPlafond()>nouveauSolde&&nouveauSolde<100000) {
+			updateCompte(numerocompte, nouveauSolde);
+			isCredited=true;
+			
 		}
 		
-		
-		return true;
+		return isCredited;
 	}
 
 	public double debiter(int numerocompte, double montant, double solde) {
@@ -262,20 +264,6 @@ public class CompteDAO extends DatabaseConnection {
 		return solde = montant;
 	}
 
-	public static void main(String[] args) {
-
-		ArrayList listeCompte = new ArrayList<CompteModel>();
-
-		CompteDAO compteBanque = new CompteDAO();
-		// compteBanque.readCompte();
-		// compteBanque.insertCompte(); // String nom, String prenom,double solde,String
-		// typecompte
-		// compteBanque.deleteCompte();
-		// compteBanque.updateCompte();
-		// listeCompte = compteBanque.readListeCompte();
-
-		System.out.println(listeCompte);
-
-	}
+	
 
 }

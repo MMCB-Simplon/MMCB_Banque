@@ -2,14 +2,14 @@ package models;
 
 public class CompteCourantModel extends CompteModel{
 	 private static final double fraisTransfert=2.0;
-	 private final double soldeMinimum=0.00;
+	 private  static final double soldeMinimum=0.00;
 
 	
 	public static  double getFraisTransfert() {
 		return fraisTransfert;
 	}
 	
-	public double getSoldeMinimum() {
+	public  static  double getSoldeMinimum() {
 		return soldeMinimum;
 	}
 	
