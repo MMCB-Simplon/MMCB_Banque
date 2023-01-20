@@ -1,7 +1,9 @@
 package dao;
 
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Vector;
 
@@ -15,15 +17,14 @@ public class CompteDAO extends DatabaseConnection {
 
 	public List<CompteModel> readListeCompte() {
 
-		List<CompteModel> listcompte = new Vector<CompteModel>();
-		Connection con = this.BDDconnection();
+		List<CompteModel> listcomptes = new Vector<CompteModel>();
+		 con = this.BDDconnection();
 		try {
 
 			java.sql.Statement stmt = con.createStatement();
 			ResultSet res = stmt.executeQuery("SELECT * FROM compte");
 
 			while (res.next()) {
-				System.out.println("bien executé");
 				CompteModel compte = new CompteModel();
 				compte.setNumerocompte(res.getInt(1));
 				compte.setPrenom(res.getString(2));
@@ -32,7 +33,7 @@ public class CompteDAO extends DatabaseConnection {
 				compte.setIdUser(res.getInt(5));
 				compte.setTypeCompte(res.getString(6));
 
-				listcompte.add(compte);
+				listcomptes.add(compte);
 				// System.out.println(res.getInt(1) + " " + res.getString(2));
 
 			}
@@ -41,18 +42,18 @@ public class CompteDAO extends DatabaseConnection {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		return listcompte;
+		return listcomptes;
 	}
 
 	public void readCompte() {
-		Connection con = this.BDDconnection();
+		 con = this.BDDconnection();
 
 		try {
 			java.sql.Statement stmt = con.createStatement();
 			ResultSet res = stmt.executeQuery("SELECT * FROM compte");
 			while (res.next()) {
-				System.out.println(res.getInt(1) + " " + res.getString(2) + " " + res.getString(3) + " "
-						+ res.getDouble(4) + " " + res.getInt(5) + " " + res.getString(6));
+//				System.out.println(res.getInt(1) + " " + res.getString(2) + " " + res.getString(3) + " "
+//						+ res.getDouble(4) + " " + res.getInt(5) + " " + res.getString(6));
 			}
 			con.close();
 		} catch (Exception e) {
@@ -62,7 +63,7 @@ public class CompteDAO extends DatabaseConnection {
 
 	public void insertCompte(int numerocompte, int iduser, String nom, String prenom, double solde, String typecompte) {
 
-		Connection con = this.BDDconnection();
+		 con = this.BDDconnection();
 
 		try {
 			java.sql.Statement stmt = con.createStatement();
@@ -95,11 +96,10 @@ public class CompteDAO extends DatabaseConnection {
 	}
 
 	public void deleteCompte(int numerocompte) {
-		Connection con = this.BDDconnection();
-	
+		 con = this.BDDconnection();
+
 		try {
-			
-			System.out.println(numerocompte);
+
 			java.sql.Statement stmt = con.createStatement();
 			String sql = "DELETE FROM compte WHERE numerocompte=" + numerocompte + "";
 			stmt.executeUpdate(sql);
@@ -110,7 +110,7 @@ public class CompteDAO extends DatabaseConnection {
 	}
 
 	public void updateCompte(int numerocompte, double solde) {
-		Connection con = this.BDDconnection();
+		 con = this.BDDconnection();
 
 		try {
 			java.sql.Statement stmt = con.createStatement();
@@ -123,7 +123,7 @@ public class CompteDAO extends DatabaseConnection {
 	}
 
 	public CompteModel getSoldeFromDatabase(int numerocompte) {
-		Connection con = this.BDDconnection();
+		 con = this.BDDconnection();
 		String soldeEtFrais = "";
 
 		CompteModel compte = new CompteModel();
@@ -132,7 +132,6 @@ public class CompteDAO extends DatabaseConnection {
 			ResultSet res = stmt.executeQuery("SELECT solde FROM compte  WHERE numerocompte = " + numerocompte + "");
 			while (res.next()) {
 
-				System.out.println(res.getDouble(1));
 
 				compte.setSolde(res.getDouble(1));
 
@@ -146,10 +145,10 @@ public class CompteDAO extends DatabaseConnection {
 
 	public int getIduser()
 
-	{
+	{ con = this.BDDconnection();
 
 		int iduser = 0;
-		Connection con = this.BDDconnection();
+		
 		try {
 			java.sql.Statement stmt = con.createStatement();
 			String lastUser = "select MAX(iduser) from user";
@@ -158,7 +157,7 @@ public class CompteDAO extends DatabaseConnection {
 			while (rs.next()) {
 				if (rs.getInt(1) != 0) {
 					iduser = rs.getInt(1);
-					System.out.println(iduser);
+					
 				}
 			}
 			con.close();
@@ -170,19 +169,19 @@ public class CompteDAO extends DatabaseConnection {
 		return iduser;
 
 	}
-	
+
 	public String getLibelleCompte(int numerocompte) {
-		Connection con = this.BDDconnection();
+		 con = this.BDDconnection();
 		String libelle = "";
-		
+
 		try {
 			java.sql.Statement stmt = con.createStatement();
-			
-			String getLibelle = "select prenom, nom  from compte where numerocompte = "+numerocompte+"";
+
+			String getLibelle = "select prenom, nom  from compte where numerocompte = " + numerocompte + "";
 			ResultSet rs = stmt.executeQuery(getLibelle);
 			rs = stmt.executeQuery(getLibelle);
 			while (rs.next()) {
-					libelle = rs.getString(1)+"_"+rs.getString(2);
+				libelle = rs.getString(1) + "_" + rs.getString(2);
 			}
 			con.close();
 
@@ -191,7 +190,7 @@ public class CompteDAO extends DatabaseConnection {
 		}
 
 		return libelle;
-		
+
 	}
 
 	public int getGeneratedNumCompte() {
@@ -207,7 +206,6 @@ public class CompteDAO extends DatabaseConnection {
 			while (rs.next()) {
 				if (rs.getInt(1) != 0)
 					numerocompte = rs.getInt(1) + 1;
-				System.out.println(numerocompte);
 			}
 
 		} catch (Exception e) {
@@ -218,51 +216,47 @@ public class CompteDAO extends DatabaseConnection {
 	}
 
 	public boolean crediter(int numerocompte, double montant, String typeCompte) {
-		Connection con = this.BDDconnection();
+
 		double nouveauSolde = 0;
 		boolean isCredited = false;
-		
+
 		CompteModel compte = new CompteModel();
 		compte = getSoldeFromDatabase(numerocompte);
 		nouveauSolde = compte.getSolde() + montant;
-		System.out.println(nouveauSolde);
-		if (typeCompte.equals("courant")&& nouveauSolde<100000)
-		
+		if (typeCompte.equals("courant") && nouveauSolde < 100000)
+
 		{
 			updateCompte(numerocompte, nouveauSolde);
-			isCredited=true;
-			
-		}
-		else if (CompteEpargneModel.getPlafond()>nouveauSolde&&nouveauSolde<100000) {
+			isCredited = true;
+
+		} else if (CompteEpargneModel.getPlafond() > nouveauSolde && nouveauSolde < 100000) {
 			updateCompte(numerocompte, nouveauSolde);
-			isCredited=true;
-			
+			isCredited = true;
+
 		}
-		
+
 		return isCredited;
 	}
 
 	public Boolean debiter(int numerocompte, double montant) {
-		
-		Connection con = this.BDDconnection();
+
+		 con = this.BDDconnection();
 		double nouveauSolde = 0;
 		boolean isDebited = false;
-		
+
 		CompteModel compte = new CompteModel();
 		compte = getSoldeFromDatabase(numerocompte);
 		nouveauSolde = compte.getSolde() - montant;
-		System.out.println(nouveauSolde);
-		if ( nouveauSolde>0)
-		
+		if (nouveauSolde > 0)
+
 		{
 			updateCompte(numerocompte, nouveauSolde);
-			isDebited=true;
-			
+			isDebited = true;
+
 		}
-		
-		
+
 		return isDebited;
-		
+
 	}
 
 	public boolean transfert(int numerocompte1, int numerocompte2, Double montant, String typecompte) {
@@ -275,12 +269,11 @@ public class CompteDAO extends DatabaseConnection {
 		CompteModel compte2 = new CompteModel();
 
 		compte1 = getSoldeFromDatabase(numerocompte1);
-		compte2=getSoldeFromDatabase(numerocompte2);
+		compte2 = getSoldeFromDatabase(numerocompte2);
 
 		nouveausolde1 = compte1.getSolde() - CompteCourantModel.getFraisTransfert() - montant;
 		if (nouveausolde1 > 0) {
 			nouveausolde2 = compte2.getSolde() + montant;
-			
 
 			if (typecompte.equals("epargne") && nouveausolde2 < CompteEpargneModel.getPlafond()) {
 				updateCompte(numerocompte2, nouveausolde2);
@@ -297,20 +290,10 @@ public class CompteDAO extends DatabaseConnection {
 		}
 
 		else {
-			System.out.println("Montant saisi superieur au solde");
 			istransfered = false;
 		}
 		return istransfered;
 	}
 
-	public double modifier(int numerocompte, double montant, double solde) {
-		
-		
-
-
-		return solde = montant;
-	}
-
 	
-
 }

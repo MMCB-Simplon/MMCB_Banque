@@ -14,12 +14,10 @@ public class DatabaseConnection {
 		
 		try {
 			Connection conn = DriverManager.getConnection(url,user,mot);
-			System.out.println("connecté");
 			return conn;
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			System.out.println(" pas connecté");
 			e.printStackTrace();
 			
 			return null;

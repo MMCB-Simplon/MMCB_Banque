@@ -29,8 +29,7 @@ public class OuvertureView extends JFrame {
 
 	public OuvertureView() {
 		super("Ouvrir un compte");
-		
-		
+
 		CompteDAO compte = new CompteDAO();
 		iduser = compte.getIduser();
 		numerocompte = compte.getGeneratedNumCompte();
@@ -66,41 +65,67 @@ public class OuvertureView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if (rdbtnRadioButtonCourant.isSelected() || rdbtnRadioButtonEpargne.isSelected()) {
 					if (!(textFieldNom.getText().equals("") || textFieldPrenom.getText().equals("")
 							|| textFieldSolde.getText().equals(""))) {
 						double solde_initial = Double.parseDouble(textFieldSolde.getText());
-						if (solde_initial < CompteEpargneModel.getPlafond()) {
-							compte.insertCompte(numerocompte, iduser, textFieldNom.getText(), textFieldPrenom.getText(),
-									solde_initial, typeCompte);
-							
-							
-								int res = JOptionPane.showConfirmDialog(contentPane, "Le compte a bien été créé",
-										"Message de confirmation", JOptionPane.PLAIN_MESSAGE);
+						if (solde_initial >= 0) {
+							if (solde_initial < 100000) {
+								if (typeCompte.equals("epargne")) {
+									if (solde_initial <= CompteEpargneModel.getPlafond()) {
+										compte.insertCompte(numerocompte, iduser, textFieldNom.getText(),
+												textFieldPrenom.getText(), solde_initial, typeCompte);
+										int res = JOptionPane.showConfirmDialog(contentPane,
+												"Le compte a bien été créé", "Message de confirmation",
+												JOptionPane.PLAIN_MESSAGE);
+										if (btnNewValiderButton.isSelected()) {
+											return;
+										}
+										GestionComptes gestionCompte = new GestionComptes();
+										gestionCompte.setVisible(true);
+										dispose();
+									} else {
+										labelcontroleSolde.setText("* Le solde initial ne peut exceder le plafond");
+										labelcontroleSolde.setVisible(true);
+									}
 
-								if (btnNewValiderButton.isSelected()) {
-									return;
+								} else if (typeCompte.equals("courant")) {
+									if ((CompteCourantModel.getSoldeMinimum() <= solde_initial)) {
+										compte.insertCompte(numerocompte, iduser, textFieldNom.getText(),
+												textFieldPrenom.getText(), solde_initial, typeCompte);
+										int res = JOptionPane.showConfirmDialog(contentPane,
+												"Le compte a bien été créé", "Message de confirmation",
+												JOptionPane.PLAIN_MESSAGE);
+										if (btnNewValiderButton.isSelected()) {
+											return;
+										}
+										GestionComptes gestionCompte = new GestionComptes();
+										gestionCompte.setVisible(true);
+										dispose();
+									} else {
+										labelcontroleSolde.setText("* Montant inférieur au solde minimum");
+										labelcontroleSolde.setVisible(true);
+									}
 								}
-							
-							GestionComptes gestionCompte = new GestionComptes();
-							gestionCompte.setVisible(true);
-						
-							dispose();
+							} else {
+								labelcontroleSolde.setText("* Montant supérieur au solde maximum");
+								labelcontroleSolde.setVisible(true);
+							}
 						} else {
-							labelcontroleSolde.setText("* Le solde initial ne peut exceder le plafond");
-
+							labelcontroleSolde.setText("* Le solde initial  inferieur à 0");
 							labelcontroleSolde.setVisible(true);
 						}
+
 					} else {
 						labelcontroleSolde.setText(" * Tous les champs sont obligatoires");
 						labelcontroleSolde.setVisible(true);
 					}
+
 				} else {
 					rdbtnRadioButtonCourant.setForeground(new Color(255, 0, 0));
 					rdbtnRadioButtonEpargne.setForeground(new Color(255, 0, 0));
 				}
-
 			}
 		});
 
