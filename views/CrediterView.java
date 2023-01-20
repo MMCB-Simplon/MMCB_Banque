@@ -89,7 +89,6 @@ public class CrediterView extends JFrame {
 				numeroCompte = Integer.parseInt(caster);
 				CompteDAO compte = new CompteDAO();
 				Double Montant = Double.parseDouble(textField.getText());
-				System.out.println(Montant);
 				if (Montant < 100000) {
 					if (typeCompte.equals("epargne")) {
 						if (compte.crediter(numeroCompte, Montant, typeCompte)) {
@@ -142,9 +141,5 @@ public class CrediterView extends JFrame {
 		});
 	}
 
-//	public static void main(String[] arsg) {
-//		CrediterView crediter = new CrediterView(null, null);
-//		crediter.setVisible(true);
-//
-//	}
+
 }

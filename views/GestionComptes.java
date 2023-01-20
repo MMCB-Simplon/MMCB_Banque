@@ -196,7 +196,6 @@ public class GestionComptes extends JFrame {
 						typeCompte = selectedCompte.substring(7, 14);
 						String caster = selectedCompte.substring(18, 24);
 						numeroCompte = Integer.parseInt(caster);
-						System.out.println(selectedCompte);
 						if (typeCompte.equals("courant")) {
 							btnTransferer.setEnabled(true);
 							btnModifier.setEnabled(true);
@@ -225,7 +224,7 @@ public class GestionComptes extends JFrame {
 						
 					}
 
-					// TODO Auto-generated method stub
+				
 
 				}
 			}
@@ -255,15 +254,6 @@ public class GestionComptes extends JFrame {
 	}
 
 	
-//	public void windowClosing(WindowEvent e) 
-//	  {
-//		  int res = JOptionPane.showConfirmDialog(this, "Souhaitez-vous procéder à la fermeture de cette fenêtre?",
-//					"Fermer Site", JOptionPane.YES_NO_OPTION);
-//			if (res == JOptionPane.YES_OPTION)
-//				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//			else if (res == JOptionPane.NO_OPTION)
-//				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//	    }
-//	
+
 
 }

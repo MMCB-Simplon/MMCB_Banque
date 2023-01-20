@@ -56,7 +56,7 @@ public class OperationRegisterDAO  extends DatabaseConnection{
 				operation.setNumeroComptedestination(res.getInt(6));
 
 				listcomptes.add(operation);
-				// System.out.println(res.getInt(1) + " " + res.getString(2));
+				
 
 			}
 			con.close();

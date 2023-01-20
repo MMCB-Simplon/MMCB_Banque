@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 import java.util.Vector;
 
 import models.CompteCourantModel;
@@ -34,8 +35,7 @@ public class CompteDAO extends DatabaseConnection {
 				compte.setTypeCompte(res.getString(6));
 
 				listcomptes.add(compte);
-				// System.out.println(res.getInt(1) + " " + res.getString(2));
-
+				
 			}
 			con.close();
 
@@ -52,8 +52,6 @@ public class CompteDAO extends DatabaseConnection {
 			java.sql.Statement stmt = con.createStatement();
 			ResultSet res = stmt.executeQuery("SELECT * FROM compte");
 			while (res.next()) {
-//				System.out.println(res.getInt(1) + " " + res.getString(2) + " " + res.getString(3) + " "
-//						+ res.getDouble(4) + " " + res.getInt(5) + " " + res.getString(6));
 			}
 			con.close();
 		} catch (Exception e) {
@@ -197,16 +195,38 @@ public class CompteDAO extends DatabaseConnection {
 
 		Connection con = this.BDDconnection();
 		int numerocompte = 100000;
-		String sqlrandom = "select MAX(numerocompte) from compte";
+		
+		  int range = (999999 - 100000) + 1;
+		  numerocompte= (int)(Math.random()*range)+100000;
+		 
+		 
+	
+	String sqlrandom = "select (numerocompte) from compte";
 
 		try {
+			
 
 			java.sql.Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(sqlrandom);
-			while (rs.next()) {
-				if (rs.getInt(1) != 0)
-					numerocompte = rs.getInt(1) + 1;
-			}
+			Boolean isfund=false;  
+			
+			do {
+				
+				
+				while (rs.next()) {
+					
+					if (rs.getInt(1) == numerocompte) {
+						 isfund=true;
+						 numerocompte= (int)(Math.random()*range)+100000;  
+					}
+					
+				} 
+				
+				
+			}while(isfund);
+			
+			
+		
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -286,7 +306,7 @@ public class CompteDAO extends DatabaseConnection {
 			} else
 				istransfered = false;
 
-			// updateCompte(compte2, nouveausolde2);
+			
 		}
 
 		else {
