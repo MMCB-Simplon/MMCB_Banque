@@ -37,7 +37,7 @@ public class HistoriqueOperations extends JFrame{
 	
 	
 	
-	JLabel lblNewLabel = new JLabel("Hystorique des Operations");
+	JLabel lblNewLabel = new JLabel("Historique des Opérations");
 	lblNewLabel.setFont(new Font("SansSerif", Font.PLAIN, 20));
 	lblNewLabel.setBorder(new CompoundBorder());
 	lblNewLabel.setBounds(422, 6, 249, 41);
