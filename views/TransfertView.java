@@ -31,9 +31,6 @@ import models.CompteModel;
 public class TransfertView extends JFrame {
 	private JTextField textField;
 	private JComboBox comboBox;
-	private String compteDestination;
-	private String compteSource;
-	private int numeroCompteSource;
 	private int numeroCompteDestination;
 	private JLabel labelcontrolmontant;
 	private JLabel labelChoixcompte;
@@ -44,9 +41,6 @@ public class TransfertView extends JFrame {
 	public TransfertView(String compteSource, int numerocompteSource, String nomPrenom) {
 
 		super("Transfert");
-		this.compteSource = compteSource;
-		this.numeroCompteSource = numerocompteSource;
-
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(1200, 650);

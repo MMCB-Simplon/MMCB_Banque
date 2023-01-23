@@ -30,7 +30,6 @@ public class CrediterView extends JFrame {
 	private JButton btnValiderButton = new JButton("Valider");
 	private JLabel labelcontrolemontant = new JLabel("* Montant superieur au plafond");
 	private int numeroCompte;
-	private int solde;
 
 	public CrediterView(String selectedCompte, String nomPrenom) {
 		super("Créditer le compte");

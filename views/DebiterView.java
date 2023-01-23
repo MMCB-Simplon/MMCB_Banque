@@ -28,7 +28,6 @@ public class DebiterView extends JFrame {
 	private JButton btnValiderButton = new JButton("Valider");
 	private JLabel labelcontrolemontant = new JLabel("* Saisir un montannt inferieur à");
 	private int numeroCompte;
-	private int solde;
 
 	public DebiterView(String selectedCompte, String nomPrenom) {
 		super("Créditer le compte");
