@@ -14,15 +14,20 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import dao.CompteDAO;
+import DAOImplements.CompteDAO;
+import DAOImplements.UserDAO;
 import models.CompteCourantModel;
 import models.CompteEpargneModel;
 
+/*
+* Page contenant le code nécessaire pour modifier le solde d'un compte, l'affichage de notre page et l'insertion 
+* au niveau de la base de donnée et de la table des opérations. 
+*/
 public class ModifierView extends JFrame {
 	private JTextField textField;
 	private JButton btnNewButton = new JButton("Valider");
 
-	public ModifierView(int numerocompte, String selectedcompte, String typeCompte) {
+	public ModifierView(int numerocompte, String selectedcompte, String typeCompte, String nomPrenom) {
 		super("Transfert");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(1200, 650);
@@ -86,11 +91,16 @@ public class ModifierView extends JFrame {
 		annuleButton.setBounds(638, 495, 212, 41);
 		getContentPane().add(annuleButton);
 		
+		JLabel userLabel = new JLabel("User : "+nomPrenom);
+		userLabel.setFont(new Font("SansSerif", Font.PLAIN, 22));
+		userLabel.setBounds(32, 10, 225, 40);
+		getContentPane().add(userLabel);
+		
 		annuleButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				GestionComptes gestionCompte = new GestionComptes();
+				GestionComptes gestionCompte = new GestionComptes(nomPrenom);
 				gestionCompte.setVisible(true);
 
 			}
@@ -108,7 +118,8 @@ public class ModifierView extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				UserDAO user= new UserDAO();
+				int iduser=user.getIduser(nomPrenom);
 				if (!textField.getText().equals("")) {
 
 					Double solde = Double.parseDouble(textField.getText());
@@ -118,8 +129,9 @@ public class ModifierView extends JFrame {
 
 						
 						if (valid == JOptionPane.OK_OPTION) {
-							compte.updateCompte(numerocompte, solde);
-							GestionComptes gestionCompte = new GestionComptes();
+							compte.updateCompte(iduser, numerocompte, solde);
+							
+							GestionComptes gestionCompte = new GestionComptes(nomPrenom);
 							gestionCompte.setVisible(true);
 							dispose();
 

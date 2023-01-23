@@ -17,8 +17,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import dao.CompteDAO;
+import DAOImplements.CompteDAO;
+import DAOImplements.OperationRegisterDAO;
+import DAOImplements.UserDAO;
+import DAOInterfaces.CompteDAOInterface;
 import models.CompteModel;
+
+/*
+*Page principale de notre site, où se trouve les boutons permettant de faire toutes les opérations
+*Contient une méthode pour clôturer les comptes et une méthode pour créer l'affiche d'un item pour la liste des comptes
+*/
 
 public class GestionComptes extends JFrame {
 
@@ -27,7 +35,7 @@ public class GestionComptes extends JFrame {
 	private String typeCompte = " ";
 	private JComboBox comboBox;
    
-	public GestionComptes() {
+	public GestionComptes(String nomPrenom) {
 		super("Liste des comptes");
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	//	this.addWindowListener(null);
@@ -53,18 +61,12 @@ public class GestionComptes extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-						OuvertureView ouvertureCompte = new OuvertureView();
+						OuvertureView ouvertureCompte = new OuvertureView(nomPrenom);
 						ouvertureCompte.setVisible(true);
-
 						setVisible(false);
 						dispose();
 			}
-
 		});
-		
-		
-		
-		
 
 		JButton btnCrediterCompte = new JButton("Créditer un compte");
 		btnCrediterCompte.setFont(new Font("SansSerif", Font.PLAIN, 22));
@@ -74,7 +76,7 @@ public class GestionComptes extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-						CrediterView creditercompte = new CrediterView(selectedCompte);
+						CrediterView creditercompte = new CrediterView(selectedCompte, nomPrenom);
 						creditercompte.setVisible(true);
 						setVisible(false);
 						dispose();
@@ -91,12 +93,11 @@ public class GestionComptes extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DebiterView debitcompte = new DebiterView(selectedCompte);
+				DebiterView debitcompte = new DebiterView(selectedCompte, nomPrenom);
 						debitcompte.setVisible(true);
 						setVisible(false);
 						dispose();
 			}
-
 		});
 
 		JButton btnTransferer = new JButton("Transférer");
@@ -107,12 +108,10 @@ public class GestionComptes extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-						TransfertView transfertCompte = new TransfertView(selectedCompte, numeroCompte);
-						transfertCompte.setVisible(true);
-					
+						TransfertView transfertCompte = new TransfertView(selectedCompte, numeroCompte, nomPrenom);
+						transfertCompte.setVisible(true);				
 						dispose();
 			}
-
 		});
 
 		JButton btnModifier = new JButton("Modifier un compte");
@@ -125,20 +124,11 @@ public class GestionComptes extends JFrame {
 
 			public void actionPerformed(ActionEvent evt) {
 
-
-				ModifierView modifierCompte = new ModifierView(numeroCompte,selectedCompte, typeCompte);
+				ModifierView modifierCompte = new ModifierView(numeroCompte,selectedCompte, typeCompte, nomPrenom);
 				modifierCompte.setVisible(true);
-				
 				dispose();
-					
-					
 				}
 					});
-
-		
-		
-		
-		
 
 		JButton btnCloturerCompte = new JButton("Clôturer un compte");
 		btnCloturerCompte.setFont(new Font("SansSerif", Font.PLAIN, 22));
@@ -149,31 +139,32 @@ public class GestionComptes extends JFrame {
 			@Override
 
 			public void actionPerformed(ActionEvent evt) {
+				
+				OperationRegisterDAO operation = new OperationRegisterDAO();
+				UserDAO user= new UserDAO();
+				int iduser=user.getIduser(nomPrenom);
+
 
 			int res = JOptionPane.showConfirmDialog(contentPane, "Souhaitez-vous procéder à la clotûre de ce compte?",
 							"Clôturer Compte", JOptionPane.YES_NO_OPTION);
-
 			
 					if (res == JOptionPane.YES_OPTION)
 					{ 
-						CompteDAO compteDelete = new CompteDAO();
+						CompteDAOInterface compteDelete = new CompteDAO();
 						compteDelete.deleteCompte(numeroCompte);
+						operation.operationsInsert(iduser, "clôturer", 0.00, numeroCompte, numeroCompte);
 						dispose();
-						GestionComptes gestion = new GestionComptes();
-						gestion.setVisible(true);
-						
-						
+						GestionComptes gestion = new GestionComptes(nomPrenom);
+						gestion.setVisible(true);				
 					}
 					else if (res == JOptionPane.NO_OPTION) {
-						
 					}
-					
 				}
 					});
 
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		comboBox.setBounds(400, 162, 512, 40);
+		comboBox.setBounds(383, 163, 512, 40);
 		getContentPane().add(comboBox);
 //		remplissage de la list des comptes
 		ConcatList();
@@ -183,7 +174,30 @@ public class GestionComptes extends JFrame {
 		btnCrediterCompte.setEnabled(false);
 		btnCloturerCompte.setEnabled(false);
 		btnDebiterCompte.setEnabled(false);
-      
+		
+		JLabel userLabel = new JLabel("User : "+nomPrenom);
+		userLabel.setFont(new Font("SansSerif", Font.PLAIN, 22));
+		userLabel.setBounds(32, 10, 390, 40);
+		getContentPane().add(userLabel);
+		
+		JButton btnHistoriqueButton = new JButton("Historique Opérations");
+		btnHistoriqueButton.setFont(new Font("SansSerif", Font.PLAIN, 22));
+		btnHistoriqueButton.setBounds(890, 27, 273, 40);
+		getContentPane().add(btnHistoriqueButton);
+		btnHistoriqueButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				  HistoriqueOperations historiqueop =new HistoriqueOperations(nomPrenom);
+				historiqueop.setVisible(true);
+				dispose();
+				
+				
+				
+			}
+		});
+		
 		comboBox.addItemListener(new ItemListener() {
 
 			@Override
@@ -212,28 +226,21 @@ public class GestionComptes extends JFrame {
 							btnDebiterCompte.setEnabled(true);
 							btnTransferer.setEnabled(false);
 						}
-
 					}
 					else {
 						btnTransferer.setEnabled(false);
 						btnModifier.setEnabled(false);
 						btnCrediterCompte.setEnabled(false);
 						btnCloturerCompte.setEnabled(false);
-						btnDebiterCompte.setEnabled(false);
-
-						
+						btnDebiterCompte.setEnabled(false);	
 					}
-
-				
-
 				}
 			}
 		});
-
 	}
 
 	public void ConcatList() {
-		CompteDAO gestionComptes = new CompteDAO();
+		CompteDAOInterface gestionComptes = new CompteDAO();
 
 		List<CompteModel> listecompte = new Vector<CompteModel>();
 		listecompte = gestionComptes.readListeCompte();
@@ -250,10 +257,5 @@ public class GestionComptes extends JFrame {
 			comboBox.addItem(itemCombox);
 
 		}
-
 	}
-
-	
-
-
 }

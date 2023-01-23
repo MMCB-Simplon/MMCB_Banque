@@ -16,13 +16,8 @@ public class CompteCourantModel extends CompteModel{
 	public  static void main(String [] args) {
 		CompteCourantModel cpc= new CompteCourantModel();
 		cpc.setPrenom("mamadou");
-		
 		cpc.setSolde(35000);
 		cpc.setTypeCompte("courant");
 		System.out.println(cpc.getPrenom()+" "+cpc.getSolde()+" "+cpc.getTypeCompte());
-		
-	}
-
-	
-	
+	}	
 }

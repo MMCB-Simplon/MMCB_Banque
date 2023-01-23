@@ -15,9 +15,15 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import dao.CompteDAO;
+import DAOImplements.CompteDAO;
 import models.CompteCourantModel;
 import models.CompteEpargneModel;
+
+/*
+ * Page contenant les items de la page ouverture de compte
+ * Page contenant l'ensemble des champs pour la création d'un compte avec les restrictions associées 
+ * (champs vide, montant >100 000, restrictions propres au type du compte)
+ */
 
 public class OuvertureView extends JFrame {
 	private JTextField textFieldNom;
@@ -32,7 +38,7 @@ public class OuvertureView extends JFrame {
 	private int numerocompte;
 	private int iduser;
 
-	public OuvertureView() {
+	public OuvertureView(String nomPrenom) {
 		super("Ouvrir un compte");
 
 		CompteDAO compte = new CompteDAO();
@@ -87,7 +93,7 @@ public class OuvertureView extends JFrame {
 										if (btnNewValiderButton.isSelected()) {
 											return;
 										}
-										GestionComptes gestionCompte = new GestionComptes();
+										GestionComptes gestionCompte = new GestionComptes(nomPrenom);
 										gestionCompte.setVisible(true);
 										dispose();
 									} else {
@@ -104,7 +110,7 @@ public class OuvertureView extends JFrame {
 										if (btnNewValiderButton.isSelected()) {
 											return;
 										}
-										GestionComptes gestionCompte = new GestionComptes();
+										GestionComptes gestionCompte = new GestionComptes(nomPrenom);
 										gestionCompte.setVisible(true);
 										dispose();
 									} else {
@@ -197,12 +203,17 @@ public class OuvertureView extends JFrame {
 		labelcontroleSolde.setBounds(812, 390, 364, 41);
 		getContentPane().add(labelcontroleSolde);
 		labelcontroleSolde.setVisible(false);
+		
+		JLabel userLabel = new JLabel("User : "+nomPrenom);
+		userLabel.setFont(new Font("SansSerif", Font.PLAIN, 22));
+		userLabel.setBounds(32, 10, 225, 40);
+		getContentPane().add(userLabel);
 
 		btnAnnuler.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				GestionComptes gestionCompte = new GestionComptes();
+				GestionComptes gestionCompte = new GestionComptes(nomPrenom);
 				gestionCompte.setVisible(true);
 				setVisible(false);
 				dispose();
@@ -240,11 +251,5 @@ public class OuvertureView extends JFrame {
 			}
 		});
 	}
-
-//	public static void main(String[] args) throws Exception {
-//		UIManager.setLookAndFeel(new NimbusLookAndFeel());
-//		OuvertureView OuvertureView = new OuvertureView();
-//		OuvertureView.setVisible(true);
-//	}
 
 }

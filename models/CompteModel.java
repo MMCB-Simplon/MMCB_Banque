@@ -46,7 +46,6 @@ public class CompteModel {
 	public String getPrenom() {
 		return prenom;
 	}
-
 	
 	public String getTypeCompte() {
 		return typeCompte;
@@ -57,8 +56,6 @@ public class CompteModel {
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
-
-	
 
 	public void setSolde(double solde) {
 		this.solde = solde;

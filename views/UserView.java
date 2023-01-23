@@ -12,15 +12,20 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import dao.UserDAO;
+import DAOImplements.UserDAO;
+import DAOInterfaces.UserDAOInterface;
+
 import java.awt.Color;
+
+/*
+ * Code permettant la création de la page d'accueil du site 
+ * Page permettant l'enregistrement d'un User s'il n'hésite pas 
+ */
 
 public class UserView extends JFrame {
 
 	private JTextField Nom_Prenom;
 	private JButton validerbtn = new JButton("Valider");
-//	private button valider = new 
-
 	private JLabel obligatoirelabel = new JLabel();
 
 	public UserView() {
@@ -59,14 +64,14 @@ public class UserView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				if (!Nom_Prenom.getText().equals("")) {
-
 					if (Nom_Prenom.getText().length() < 50) {
-						UserDAO userdao = new UserDAO();
-						userdao.insertUser(Nom_Prenom.getText());
-
 						
+						UserDAOInterface userdao = new UserDAO();
+						if(!userdao.getNomPrenomUser(Nom_Prenom.getText())) {
+							userdao.insertUser(Nom_Prenom.getText());
+						}
 						dispose();
-						GestionComptes listes = new GestionComptes();
+						GestionComptes listes = new GestionComptes(Nom_Prenom.getText());
 						listes.setVisible(true);
 					} else {
 						obligatoirelabel.setText("* Maximum 50 caracteres");
@@ -77,16 +82,10 @@ public class UserView extends JFrame {
 					obligatoirelabel.setVisible(true);
 				}
 
-				// TODO Auto-generated method stub
-
 			}
 
 		});
-
 		getContentPane().add(validerbtn);
-		
-
-		//JLabel obligatoirelabel = new JLabel("*Champ obligatoire: maximum 50 caractères");
 		obligatoirelabel.setFont(new Font("SansSerif", Font.BOLD, 12));
 		obligatoirelabel.setForeground(new Color(255, 0, 0));
 		obligatoirelabel.setBounds(761, 317, 306, 16);

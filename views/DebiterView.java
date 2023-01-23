@@ -14,8 +14,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import dao.CompteDAO;
+import DAOImplements.CompteDAO;
+import DAOImplements.UserDAO;
 import models.CompteEpargneModel;
+
+/*
+* Page contenant le code nécessaire pour débiter un compte, l'affichage de notre page et l'insertion 
+* au niveau de la base de donnée et de la table des opérations. 
+*/
 
 public class DebiterView extends JFrame {
 	private JTextField textField;
@@ -24,7 +30,7 @@ public class DebiterView extends JFrame {
 	private int numeroCompte;
 	private int solde;
 
-	public DebiterView(String selectedCompte) {
+	public DebiterView(String selectedCompte, String nomPrenom) {
 		super("Créditer le compte");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(1200, 650);
@@ -56,7 +62,7 @@ public class DebiterView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				GestionComptes gestionCompte = new GestionComptes();
+				GestionComptes gestionCompte = new GestionComptes(nomPrenom);
 				gestionCompte.setVisible(true);
 
 			}
@@ -78,6 +84,11 @@ public class DebiterView extends JFrame {
 		getContentPane().add(labelcontrolemontant);
 		labelcontrolemontant.setVisible(rootPaneCheckingEnabled);
 		labelcontrolemontant.setVisible(false);
+		
+		JLabel userLabel = new JLabel("User : "+nomPrenom);
+		userLabel.setFont(new Font("SansSerif", Font.PLAIN, 22));
+		userLabel.setBounds(32, 10, 225, 40);
+		getContentPane().add(userLabel);
 
 		btnValiderButton.addActionListener(new ActionListener() {
 
@@ -88,8 +99,10 @@ public class DebiterView extends JFrame {
 				numeroCompte = Integer.parseInt(caster);
 				CompteDAO compte = new CompteDAO();
 				Double Montant = Double.parseDouble(textField.getText());
-
-				if (compte.debiter(numeroCompte, Montant))
+				UserDAO user= new UserDAO();
+				int iduser=user.getIduser(nomPrenom);
+				
+				if (compte.debiter(iduser, numeroCompte, Montant))
 
 				{
 
@@ -101,7 +114,7 @@ public class DebiterView extends JFrame {
 						return;
 					}
 
-					GestionComptes gestion = new GestionComptes();
+					GestionComptes gestion = new GestionComptes(nomPrenom);
 					gestion.setVisible(true);
 					
 					dispose();
@@ -116,10 +129,4 @@ public class DebiterView extends JFrame {
 			}
 		});
 	}
-
-//	public static void main(String[] arsg) {
-//		debiterView debiter = new debiterView(null, null);
-//		debiter.setVisible(true);
-//
-//	}
 }

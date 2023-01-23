@@ -10,6 +10,7 @@ public class operation {
 	private String typeOperation;
 	private Double montantOperation;
 	private int numeroCompteSource;
+	
 	@Override
 	public String toString() {
 		return "operation [iduser=" + iduser + ", date=" + date + ", typeOperation=" + typeOperation
@@ -23,7 +24,6 @@ public class operation {
 	public void setIduser(int iduser) {
 		this.iduser = iduser;
 	}
-	
 	
 	public Date getDate() {
 		return date;

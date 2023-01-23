@@ -14,8 +14,16 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import dao.CompteDAO;
+import DAOImplements.CompteDAO;
+import DAOImplements.OperationRegisterDAO;
+import DAOImplements.UserDAO;
+import DAOInterfaces.CompteDAOInterface;
 import models.CompteEpargneModel;
+
+/*
+ * Page contenant le code nécessaire pour créditer un compte, l'affichage de notre page et l'insertion 
+ * au niveau de la base de donnée et de la table des opérations. 
+ */
 
 public class CrediterView extends JFrame {
 	private JTextField textField;
@@ -24,7 +32,7 @@ public class CrediterView extends JFrame {
 	private int numeroCompte;
 	private int solde;
 
-	public CrediterView(String selectedCompte) {
+	public CrediterView(String selectedCompte, String nomPrenom) {
 		super("Créditer le compte");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(1200, 650);
@@ -52,17 +60,17 @@ public class CrediterView extends JFrame {
 		lblMontantLabel.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		lblMontantLabel.setBounds(410, 180, 340, 20);
 		getContentPane().add(lblMontantLabel);
-		
+
 		JButton annuleButton = new JButton("Annuler");
 		annuleButton.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		annuleButton.setBounds(624, 318, 212, 41);
 		getContentPane().add(annuleButton);
-		
+
 		annuleButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				GestionComptes gestionCompte = new GestionComptes();
+				GestionComptes gestionCompte = new GestionComptes(nomPrenom);
 				gestionCompte.setVisible(true);
 
 			}
@@ -79,6 +87,11 @@ public class CrediterView extends JFrame {
 		labelcontrolemontant.setVisible(rootPaneCheckingEnabled);
 		labelcontrolemontant.setVisible(false);
 
+		JLabel userLabel = new JLabel("User : " + nomPrenom);
+		userLabel.setFont(new Font("SansSerif", Font.PLAIN, 22));
+		userLabel.setBounds(32, 10, 225, 40);
+		getContentPane().add(userLabel);
+
 		btnValiderButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -87,45 +100,50 @@ public class CrediterView extends JFrame {
 				String typeCompte = selectedCompte.substring(7, 14);
 				String caster = selectedCompte.substring(18, 24);
 				numeroCompte = Integer.parseInt(caster);
-				CompteDAO compte = new CompteDAO();
+				CompteDAOInterface compte = new CompteDAO();
 				Double Montant = Double.parseDouble(textField.getText());
 				if (Montant < 100000) {
-					if (typeCompte.equals("epargne")) {
-						if (compte.crediter(numeroCompte, Montant, typeCompte)) {
+					UserDAO user = new UserDAO();
 
-							int res = JOptionPane.showConfirmDialog(contentPane, "Le compte a bien été crédité de: "+Montant+"€",
-									"Message de confirmation", JOptionPane.PLAIN_MESSAGE);
+					int iduser = user.getIduser(nomPrenom);
+					if (typeCompte.equals("epargne")) {
+
+						if (compte.crediter(iduser, numeroCompte, Montant, typeCompte)) {
+
+							int res = JOptionPane.showConfirmDialog(contentPane,
+									"Le compte a bien été crédité de: " + Montant + "€", "Message de confirmation",
+									JOptionPane.PLAIN_MESSAGE);
 
 							if (btnValiderButton.isSelected()) {
 								return;
 							}
-						
-							GestionComptes gestion = new GestionComptes();
+
+							GestionComptes gestion = new GestionComptes(nomPrenom);
 							gestion.setVisible(true);
-						
+
 							dispose();
-							
+
 						} else {
 							labelcontrolemontant.setText("Plafond  Epargne:" + CompteEpargneModel.getPlafond());
 							labelcontrolemontant.setVisible(true);
 						}
 
 					} else if (typeCompte.equals("courant")) {
-						if (compte.crediter(numeroCompte, Montant, typeCompte)) {
+						if (compte.crediter(iduser, numeroCompte, Montant, typeCompte)) {
 
-							int res = JOptionPane.showConfirmDialog(contentPane, "Le compte a bien été crédité de: "+Montant+"€",
-									"Message de confirmation", JOptionPane.PLAIN_MESSAGE);
+							int res = JOptionPane.showConfirmDialog(contentPane,
+									"Le compte a bien été crédité de: " + Montant + "€", "Message de confirmation",
+									JOptionPane.PLAIN_MESSAGE);
 
 							if (btnValiderButton.isSelected()) {
 								return;
 							}
-						
 
-							GestionComptes gestion = new GestionComptes();
+							GestionComptes gestion = new GestionComptes(nomPrenom);
 							gestion.setVisible(true);
 							setVisible(false);
 							dispose();
-							
+
 						} else {
 							labelcontrolemontant.setText("Plafond ateint");
 							labelcontrolemontant.setVisible(true);
@@ -140,6 +158,5 @@ public class CrediterView extends JFrame {
 			}
 		});
 	}
-
 
 }

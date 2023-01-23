@@ -20,8 +20,13 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import dao.CompteDAO;
+import DAOImplements.CompteDAO;
+import DAOImplements.UserDAO;
 import models.CompteModel;
+/*
+* Page contenant le code nécessaire pour transfer un montant d'un compte à un autre. L'affichage de notre page et l'insertion 
+* au niveau de la base de donnée et de la table des opérations. 
+*/
 
 public class TransfertView extends JFrame {
 	private JTextField textField;
@@ -34,13 +39,14 @@ public class TransfertView extends JFrame {
 	private JLabel labelChoixcompte;
 	private String typeCompte;
 
-	public TransfertView(String compteSource, int numerocompteSource) {
+
+	
+	public TransfertView(String compteSource, int numerocompteSource, String nomPrenom) {
 
 		super("Transfert");
 		this.compteSource = compteSource;
 		this.numeroCompteSource = numerocompteSource;
 
-		System.out.println(numeroCompteSource);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(1200, 650);
@@ -59,7 +65,7 @@ public class TransfertView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				GestionComptes gestionCompte = new GestionComptes();
+				GestionComptes gestionCompte = new GestionComptes(nomPrenom);
 				gestionCompte.setVisible(true);
 
 			}
@@ -75,15 +81,15 @@ public class TransfertView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CompteDAO transfertCompte = new CompteDAO();
-
-				// System.out.println(solde);
+				UserDAO user= new UserDAO();
+				int iduser=user.getIduser(nomPrenom);
 				if (!comboBox.getSelectedItem().toString().equals("selectionner un compte")) {
 					if ((!textField.getText().equals(""))) {
                 
 						double solde = Double.parseDouble(textField.getText());
 						
 					   
-						if (transfertCompte.transfert(numerocompteSource, numeroCompteDestination, solde,typeCompte)) {
+						if (transfertCompte.transfert(iduser, numerocompteSource, numeroCompteDestination, solde,typeCompte)) {
 							int res = JOptionPane.showConfirmDialog(contentPane, "Le transfert a bien été realisé",
 									"Message de confirmation", JOptionPane.PLAIN_MESSAGE);
 
@@ -93,8 +99,7 @@ public class TransfertView extends JFrame {
 						
 							
 							dispose();
-							System.out.println("ok");
-							GestionComptes listes = new GestionComptes();
+							GestionComptes listes = new GestionComptes(nomPrenom);
 							listes.setVisible(true);
 						} else {
 							labelcontrolmontant.setVisible(true);
@@ -139,12 +144,9 @@ public class TransfertView extends JFrame {
 						typeCompte = selected.substring(7, 14);
 						String caster = selected.substring(18, 24);
 						numeroCompteDestination = Integer.parseInt(caster);
-						System.out.println(numeroCompteDestination);
-						System.out.println("okok");
 
 					}
 
-					// TODO Auto-generated method stub
 
 				}
 			}
@@ -194,6 +196,10 @@ public class TransfertView extends JFrame {
 		getContentPane().add(labelChoixcompte);
 		labelChoixcompte.setVisible(false);
 
+		JLabel userLabel = new JLabel("User : "+nomPrenom);
+		userLabel.setFont(new Font("SansSerif", Font.PLAIN, 22));
+		userLabel.setBounds(32, 10, 225, 40);
+		getContentPane().add(userLabel);
 	}
 
 	public void ConcatList(String compteSource) {

@@ -1,4 +1,4 @@
-package dao;
+package DAOImplements;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,11 +7,14 @@ import java.util.List;
 
 import models.CompteCourantModel;
 
+/*
+ * Classe nous permettant de récupérer les informations des comptes courant en ce servant du modèle CompteCourantModel
+ */
 public class CompteCourantDAO extends DatabaseConnection {
     
-    public ArrayList<CompteCourantModel>   readCourant () {
+    public List <CompteCourantModel>   readCourant () {
          
-      ArrayList<CompteCourantModel> listcompte= new ArrayList<CompteCourantModel>();
+      List <CompteCourantModel> listcompte= new ArrayList<CompteCourantModel>();
         Connection con = this.BDDconnection();
         try {
             
@@ -34,21 +37,6 @@ public class CompteCourantDAO extends DatabaseConnection {
         }
     return  listcompte;
     }
-    public static void main (String [] args) {
-        CompteCourantDAO comptecourant= new CompteCourantDAO();
-      
-      //  comptecourant.readCourant();
-        ArrayList<CompteCourantModel> listcomptecourant = new ArrayList<CompteCourantModel>();
-        
-        listcomptecourant=comptecourant.readCourant();
-
-        for (CompteCourantModel compte : listcomptecourant) {
-
- System.out.println("Frais:"+compte.getFraisTransfert()+"[numerocompte]="+compte.getNumerocompte()+" [soldeminimum]:"+compte.getSoldeMinimum());
-            
-        }
-        
-    }
-    
+   
     
 }
